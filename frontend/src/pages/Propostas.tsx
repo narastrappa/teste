@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react'
+import { useState, useEffect, type FormEvent } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from '../api/client'
 import { Card, PageHeader, Spinner, ErrorMessage, Badge, Button } from '../components/ui'
@@ -40,9 +41,15 @@ export default function Propostas() {
   const [formError, setFormError] = useState<string | null>(null)
   const queryClient = useQueryClient()
 
-  const [editalId, setEditalId] = useState('')
+  const [searchParams] = useSearchParams()
+  const [editalId, setEditalId] = useState(searchParams.get('edital_id') ?? '')
   const [valorProposto, setValorProposto] = useState('')
   const [descricaoTecnica, setDescricaoTecnica] = useState('')
+
+  useEffect(() => {
+    const fromUrl = searchParams.get('edital_id')
+    if (fromUrl) setEditalId(fromUrl)
+  }, [searchParams])
 
   const { data, isLoading, error } = useQuery<Proposta>({
     queryKey: ['proposta', activeId],

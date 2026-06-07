@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { Link, useNavigate } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from '../api/client'
 import { Card, PageHeader, Spinner, ErrorMessage, EmptyState, Badge, Button } from '../components/ui'
 
@@ -49,6 +49,8 @@ function formatDate(value?: string) {
 export default function Editais() {
   const [page, setPage] = useState(1)
   const [statusFilter, setStatusFilter] = useState('')
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const { data, isLoading, error } = useQuery<EditalListResponse>({
     queryKey: ['editais', page, statusFilter],
@@ -62,7 +64,30 @@ export default function Editais() {
 
   const scraperMutation = useMutation({
     mutationFn: async () => (await api.post('/scraper/run', {})).data,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['editais'] })
+    },
   })
+
+  const statusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) =>
+      (await api.patch(`/editais/${id}/status`, { status })).data,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['editais'] }),
+  })
+
+  function marcarInteressante(e: React.MouseEvent, id: string) {
+    e.stopPropagation()
+    statusMutation.mutate({ id, status: 'em_analise' })
+  }
+
+  function marcarNaoInteressante(e: React.MouseEvent, id: string) {
+    e.stopPropagation()
+    statusMutation.mutate({ id, status: 'desclassificado' })
+  }
+
+  // Enquanto a busca está em andamento, escondemos a lista antiga para não confundir
+  // o usuário com resultados desatualizados — a lista é recarregada ao concluir.
+  const buscando = scraperMutation.isPending
 
   return (
     <div>
@@ -97,9 +122,9 @@ export default function Editais() {
         }
       />
 
-      {scraperMutation.isSuccess && (
+      {scraperMutation.isSuccess && !buscando && (
         <div className="mb-4 rounded-md bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
-          Busca iniciada — os novos editais aparecerão aqui assim que o processamento for concluído (pode levar alguns minutos).
+          Busca concluída — a lista foi atualizada com os editais mais recentes.
         </div>
       )}
       {scraperMutation.isError && (
@@ -108,15 +133,29 @@ export default function Editais() {
         </div>
       )}
 
-      {isLoading && <Spinner />}
-      {error && <ErrorMessage message="Não foi possível carregar os editais." />}
-      {data && data.items.length === 0 && <EmptyState message="Nenhum edital encontrado." />}
+      {buscando && (
+        <div className="mb-4 rounded-md bg-blue-50 border border-blue-200 px-4 py-3 text-sm text-blue-700">
+          Buscando novos editais... a lista será atualizada assim que a busca terminar.
+        </div>
+      )}
 
-      {data && data.items.length > 0 && (
+      {buscando && <Spinner />}
+
+      {!buscando && isLoading && <Spinner />}
+      {!buscando && error && <ErrorMessage message="Não foi possível carregar os editais." />}
+      {!buscando && data && data.items.length === 0 && <EmptyState message="Nenhum edital encontrado." />}
+
+      {!buscando && data && data.items.length > 0 && (
         <div className="space-y-3">
           {data.items.map((edital) => (
-            <Card key={edital.id}>
-              <div className="flex items-start justify-between gap-4">
+            <Card
+              key={edital.id}
+              className="cursor-pointer hover:border-slate-400 transition-colors"
+            >
+              <div
+                className="flex items-start justify-between gap-4"
+                onClick={() => navigate(`/editais/${edital.id}`)}
+              >
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="font-medium text-gray-900">{edital.numero}</h3>
@@ -133,13 +172,31 @@ export default function Editais() {
                     <span>Abertura: {formatDate(edital.data_abertura)}</span>
                   </div>
                 </div>
+                <div className="flex items-center gap-1 shrink-0">
+                  <button
+                    type="button"
+                    title="Marcar como interessante"
+                    onClick={(e) => marcarInteressante(e, edital.id)}
+                    className="rounded-md p-2 text-lg hover:bg-yellow-50 transition-colors"
+                  >
+                    ⭐
+                  </button>
+                  <button
+                    type="button"
+                    title="Marcar como não interessante"
+                    onClick={(e) => marcarNaoInteressante(e, edital.id)}
+                    className="rounded-md p-2 text-lg hover:bg-red-50 transition-colors"
+                  >
+                    🗑️
+                  </button>
+                </div>
               </div>
             </Card>
           ))}
         </div>
       )}
 
-      {data && data.pages > 1 && (
+      {!buscando && data && data.pages > 1 && (
         <div className="flex items-center justify-between mt-6">
           <Button variant="secondary" onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1}>
             Anterior

@@ -31,7 +31,8 @@ const modalidadesDisponiveis = [
 ]
 
 const portaisDisponiveis = [
-  { value: 'comprasnet', label: 'ComprasNet' },
+  { value: 'pncp', label: 'PNCP (Portal Nacional de Contratações Públicas)' },
+  { value: 'comprasnet', label: 'ComprasNet (legado)' },
   { value: 'bec', label: 'BEC SP' },
 ]
 

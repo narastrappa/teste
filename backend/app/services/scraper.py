@@ -1,7 +1,7 @@
 """Portal scrapers (ComprasNet, BEC, etc.) with retry logic."""
 import asyncio
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import List, Dict, Any, Optional
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -199,9 +199,94 @@ def _parse_data_br(data_str: str) -> Optional[datetime]:
     return None
 
 
+def _parse_data_iso(data_str: Optional[str]) -> Optional[datetime]:
+    """Converte data/hora no formato ISO retornado pela API do PNCP."""
+    if not data_str:
+        return None
+    try:
+        dt = datetime.fromisoformat(data_str)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt
+    except ValueError:
+        return None
+
+
+# Códigos de modalidade de contratação do PNCP -> ModalidadeEnum local
+_PNCP_MODALIDADE_MAP = {
+    1: ModalidadeEnum.leilao,
+    4: ModalidadeEnum.concorrencia,
+    5: ModalidadeEnum.concorrencia,
+    6: ModalidadeEnum.pregao,
+    7: ModalidadeEnum.pregao,
+    8: ModalidadeEnum.dispensa,
+    13: ModalidadeEnum.leilao,
+}
+
+
+async def scrape_pncp(db: AsyncSession) -> List[Dict[str, Any]]:
+    """Busca editais com propostas abertas na API pública do PNCP (Portal Nacional de Contratações Públicas).
+
+    O PNCP substituiu o ComprasNet como portal unificado de compras públicas e
+    expõe uma API REST pública (sem autenticação) com editais de todo o país.
+    """
+    import httpx
+
+    resultados: List[Dict[str, Any]] = []
+
+    result = await db.execute(select(FiltroConfig).where(FiltroConfig.ativo == True).limit(1))
+    filtro = result.scalar_one_or_none()
+    ufs = filtro.ufs if filtro and filtro.ufs else [None]
+
+    data_final = (datetime.now(timezone.utc) + timedelta(days=180)).strftime("%Y%m%d")
+    base_url = "https://pncp.gov.br/api/consulta/v1/contratacoes/proposta"
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        for uf in ufs:
+            params = {"dataFinal": data_final, "pagina": 1, "tamanhoPagina": 50}
+            if uf:
+                params["uf"] = uf
+
+            try:
+                resp = await client.get(base_url, params=params)
+                resp.raise_for_status()
+                payload = resp.json()
+            except Exception as e:
+                logger.error(f"Erro ao consultar PNCP (uf={uf}): {e}")
+                continue
+
+            for item in payload.get("data", []):
+                orgao = (item.get("orgaoEntidade") or {}).get("razaoSocial", "")
+                unidade = item.get("unidadeOrgao") or {}
+                modalidade_id = item.get("modalidadeId")
+                numero_controle = item.get("numeroControlePNCP") or (
+                    f"{(item.get('orgaoEntidade') or {}).get('cnpj', '')}-{item.get('anoCompra')}-{item.get('sequencialCompra')}"
+                )
+
+                resultados.append({
+                    "numero": numero_controle,
+                    "portal_origem": "pncp",
+                    "orgao": orgao,
+                    "objeto": item.get("objetoCompra", ""),
+                    "modalidade": _PNCP_MODALIDADE_MAP.get(modalidade_id, ModalidadeEnum.pregao),
+                    "uf": unidade.get("ufSigla"),
+                    "municipio": unidade.get("municipioNome"),
+                    "valor_estimado": item.get("valorTotalEstimado") or item.get("valorTotalHomologado"),
+                    # Usamos o prazo final de propostas como "data_abertura": é o que importa para
+                    # decidir se o edital ainda está em aberto (a data de início do recebimento de
+                    # propostas normalmente já passou para editais retornados por este endpoint).
+                    "data_abertura": _parse_data_iso(item.get("dataEncerramentoProposta")),
+                    "data_publicacao": _parse_data_iso(item.get("dataPublicacaoPncp")),
+                    "url_portal": item.get("linkSistemaOrigem") or "https://pncp.gov.br",
+                })
+
+    return resultados
+
+
 SCRAPERS = {
     "comprasnet": scrape_comprasnet,
     "bec": scrape_bec,
+    "pncp": scrape_pncp,
 }
 
 

@@ -38,6 +38,12 @@ celery_app.conf.beat_schedule = {
         "task": "app.workers.tasks.task_sync_acompanhamento_critico",
         "schedule": crontab(minute="*/30"),
     },
+    # Scraper PNCP 3x/dia
+    "scraper-pncp": {
+        "task": "app.workers.tasks.task_run_scraper",
+        "schedule": crontab(hour="8,12,18", minute=30),
+        "args": ("pncp",),
+    },
     # Scraper ComprasNet 3x/dia
     "scraper-comprasnet": {
         "task": "app.workers.tasks.task_run_scraper",

@@ -163,7 +163,7 @@ async def run_scraper(
     """Inicia scraper(s) de forma assíncrona."""
     from app.workers.tasks import task_run_scraper
 
-    portais = payload.portais or ["comprasnet", "bec"]
+    portais = payload.portais or ["pncp", "comprasnet", "bec"]
     tasks = []
     for portal in portais:
         task = task_run_scraper.delay(portal)

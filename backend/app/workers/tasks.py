@@ -8,17 +8,24 @@ from celery import Task
 from sqlalchemy import select
 
 from app.workers.celery_app import celery_app
-from app.database import AsyncSessionLocal
+from app.database import AsyncSessionLocal, engine
 
 logger = logging.getLogger(__name__)
 
 
 def run_async(coro):
-    """Helper to run async code from sync Celery task."""
+    """Helper to run async code from sync Celery task.
+
+    Each call uses a fresh event loop, so the engine's pooled connections
+    (bound to the loop they were created in) must be disposed afterwards —
+    otherwise the next task reuses connections tied to a closed loop and
+    fails with "Event loop is closed" / "attached to a different loop".
+    """
     loop = asyncio.new_event_loop()
     try:
         return loop.run_until_complete(coro)
     finally:
+        loop.run_until_complete(engine.dispose())
         loop.close()
 
 

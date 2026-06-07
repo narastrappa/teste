@@ -40,9 +40,9 @@ class Edital(Base):
     portal_origem: Mapped[str] = mapped_column(String(50), nullable=False)
     orgao: Mapped[str] = mapped_column(String(500), nullable=False)
     objeto: Mapped[str] = mapped_column(Text, nullable=False)
-    modalidade: Mapped[ModalidadeEnum] = mapped_column(SAEnum(ModalidadeEnum), nullable=False)
+    modalidade: Mapped[ModalidadeEnum] = mapped_column(SAEnum(ModalidadeEnum, name="modalidade_enum"), nullable=False)
     status: Mapped[StatusEditalEnum] = mapped_column(
-        SAEnum(StatusEditalEnum), nullable=False, default=StatusEditalEnum.novo
+        SAEnum(StatusEditalEnum, name="status_edital_enum"), nullable=False, default=StatusEditalEnum.novo
     )
     uf: Mapped[Optional[str]] = mapped_column(String(2), nullable=True)
     municipio: Mapped[Optional[str]] = mapped_column(String(200), nullable=True)

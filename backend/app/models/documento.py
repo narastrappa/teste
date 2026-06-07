@@ -34,10 +34,10 @@ class Documento(Base):
     __tablename__ = "documentos"
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    tipo: Mapped[TipoDocumentoEnum] = mapped_column(SAEnum(TipoDocumentoEnum), nullable=False)
+    tipo: Mapped[TipoDocumentoEnum] = mapped_column(SAEnum(TipoDocumentoEnum, name="tipo_documento_enum"), nullable=False)
     descricao: Mapped[str] = mapped_column(String(500), nullable=False)
     status: Mapped[StatusDocumentoEnum] = mapped_column(
-        SAEnum(StatusDocumentoEnum), nullable=False, default=StatusDocumentoEnum.valido
+        SAEnum(StatusDocumentoEnum, name="status_documento_enum"), nullable=False, default=StatusDocumentoEnum.valido
     )
     s3_key: Mapped[Optional[str]] = mapped_column(String(1000), nullable=True)
     nome_arquivo: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)

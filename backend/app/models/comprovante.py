@@ -28,9 +28,9 @@ class LogEnvioComprovante(Base):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     item_folha_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("itens_folha.id"), nullable=False)
     funcionario_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("funcionarios.id"), nullable=False)
-    canal: Mapped[Optional[CanalEnvioEnum]] = mapped_column(SAEnum(CanalEnvioEnum), nullable=True)
+    canal: Mapped[Optional[CanalEnvioEnum]] = mapped_column(SAEnum(CanalEnvioEnum, name="canal_envio_enum"), nullable=True)
     status: Mapped[StatusEnvioEnum] = mapped_column(
-        SAEnum(StatusEnvioEnum), nullable=False, default=StatusEnvioEnum.pendente
+        SAEnum(StatusEnvioEnum, name="status_envio_enum"), nullable=False, default=StatusEnvioEnum.pendente
     )
     pdf_s3: Mapped[Optional[str]] = mapped_column(String(1000), nullable=True)
     tentativas: Mapped[int] = mapped_column(Integer, default=0, nullable=False)

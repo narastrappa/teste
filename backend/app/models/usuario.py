@@ -25,7 +25,7 @@ class Usuario(Base):
     nome: Mapped[str] = mapped_column(String(200), nullable=False)
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False, index=True)
     senha_hash: Mapped[str] = mapped_column(String(255), nullable=False)
-    perfil: Mapped[PerfilEnum] = mapped_column(SAEnum(PerfilEnum), nullable=False, default=PerfilEnum.readonly)
+    perfil: Mapped[PerfilEnum] = mapped_column(SAEnum(PerfilEnum, name="perfil_enum"), nullable=False, default=PerfilEnum.readonly)
     ativo: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at: Mapped[datetime] = mapped_column(

@@ -48,7 +48,7 @@ class Proposta(Base):
     template_id: Mapped[Optional[uuid.UUID]] = mapped_column(UUID(as_uuid=True), ForeignKey("templates.id"), nullable=True)
     versao: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
     status: Mapped[StatusPropostaEnum] = mapped_column(
-        SAEnum(StatusPropostaEnum), nullable=False, default=StatusPropostaEnum.rascunho
+        SAEnum(StatusPropostaEnum, name="status_proposta_enum"), nullable=False, default=StatusPropostaEnum.rascunho
     )
     valor_proposto: Mapped[Optional[Decimal]] = mapped_column(Numeric(18, 2), nullable=True)
     descricao_tecnica: Mapped[Optional[str]] = mapped_column(Text, nullable=True)

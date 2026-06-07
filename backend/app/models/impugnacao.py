@@ -25,7 +25,7 @@ class Impugnacao(Base):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     edital_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("editais.id"), nullable=False)
     status: Mapped[StatusImpugnacaoEnum] = mapped_column(
-        SAEnum(StatusImpugnacaoEnum), nullable=False, default=StatusImpugnacaoEnum.rascunho
+        SAEnum(StatusImpugnacaoEnum, name="status_impugnacao_enum"), nullable=False, default=StatusImpugnacaoEnum.rascunho
     )
     motivos: Mapped[str] = mapped_column(Text, nullable=False)
     minuta_docx_s3: Mapped[Optional[str]] = mapped_column(String(1000), nullable=True)

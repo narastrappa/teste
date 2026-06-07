@@ -43,7 +43,7 @@ class Funcionario(Base):
     tipo_conta: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
     pix_chave: Mapped[Optional[str]] = mapped_column(String(200), nullable=True)
     preferencia_comprovante: Mapped[TipoComprovanteEnum] = mapped_column(
-        SAEnum(TipoComprovanteEnum), nullable=False, default=TipoComprovanteEnum.email
+        SAEnum(TipoComprovanteEnum, name="tipo_comprovante_enum"), nullable=False, default=TipoComprovanteEnum.email
     )
     ativo: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
@@ -66,7 +66,7 @@ class Folha(Base):
     competencia: Mapped[str] = mapped_column(String(7), nullable=False)  # YYYY-MM
     sufixo_revisao: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     status: Mapped[StatusFolhaEnum] = mapped_column(
-        SAEnum(StatusFolhaEnum), nullable=False, default=StatusFolhaEnum.rascunho
+        SAEnum(StatusFolhaEnum, name="status_folha_enum"), nullable=False, default=StatusFolhaEnum.rascunho
     )
     total_bruto: Mapped[Optional[Decimal]] = mapped_column(Numeric(18, 2), nullable=True)
     total_descontos: Mapped[Optional[Decimal]] = mapped_column(Numeric(18, 2), nullable=True)

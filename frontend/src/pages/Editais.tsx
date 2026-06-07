@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { api } from '../api/client'
 import { Card, PageHeader, Spinner, ErrorMessage, EmptyState, Badge, Button } from '../components/ui'
 
@@ -59,30 +60,53 @@ export default function Editais() {
       ).data,
   })
 
+  const scraperMutation = useMutation({
+    mutationFn: async () => (await api.post('/scraper/run', {})).data,
+  })
+
   return (
     <div>
       <PageHeader
         title="Editais"
         subtitle="Editais monitorados pelo sistema"
         actions={
-          <select
-            value={statusFilter}
-            onChange={(e) => {
-              setStatusFilter(e.target.value)
-              setPage(1)
-            }}
-            className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
-          >
-            <option value="">Todos os status</option>
-            <option value="novo">Novo</option>
-            <option value="em_analise">Em análise</option>
-            <option value="proposta_enviada">Proposta enviada</option>
-            <option value="desclassificado">Desclassificado</option>
-            <option value="vencedor">Vencedor</option>
-            <option value="perdedor">Perdedor</option>
-          </select>
+          <div className="flex items-center gap-2">
+            <Link to="/busca">
+              <Button variant="secondary">Configurar perfil de busca</Button>
+            </Link>
+            <Button onClick={() => scraperMutation.mutate()} disabled={scraperMutation.isPending}>
+              {scraperMutation.isPending ? 'Buscando...' : 'Buscar editais agora'}
+            </Button>
+            <select
+              value={statusFilter}
+              onChange={(e) => {
+                setStatusFilter(e.target.value)
+                setPage(1)
+              }}
+              className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+            >
+              <option value="">Todos os status</option>
+              <option value="novo">Novo</option>
+              <option value="em_analise">Em análise</option>
+              <option value="proposta_enviada">Proposta enviada</option>
+              <option value="desclassificado">Desclassificado</option>
+              <option value="vencedor">Vencedor</option>
+              <option value="perdedor">Perdedor</option>
+            </select>
+          </div>
         }
       />
+
+      {scraperMutation.isSuccess && (
+        <div className="mb-4 rounded-md bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
+          Busca iniciada — os novos editais aparecerão aqui assim que o processamento for concluído (pode levar alguns minutos).
+        </div>
+      )}
+      {scraperMutation.isError && (
+        <div className="mb-4">
+          <ErrorMessage message="Não foi possível iniciar a busca. Verifique se o perfil de busca está configurado e ativo." />
+        </div>
+      )}
 
       {isLoading && <Spinner />}
       {error && <ErrorMessage message="Não foi possível carregar os editais." />}

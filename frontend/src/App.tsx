@@ -5,6 +5,7 @@ import Layout from './components/Layout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Editais from './pages/Editais'
+import BuscaConfig from './pages/BuscaConfig'
 import Propostas from './pages/Propostas'
 import Impugnacoes from './pages/Impugnacoes'
 import Documentos from './pages/Documentos'
@@ -31,6 +32,7 @@ export default function App() {
         >
           <Route index element={<Dashboard />} />
           <Route path="editais" element={<Editais />} />
+          <Route path="busca" element={<BuscaConfig />} />
           <Route path="propostas" element={<Propostas />} />
           <Route path="impugnacoes" element={<Impugnacoes />} />
           <Route path="documentos" element={<Documentos />} />

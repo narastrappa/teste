@@ -10,10 +10,11 @@ from sqlalchemy import select, func, and_
 
 from app.database import get_db
 from app.auth import get_current_user, require_analista
-from app.models.edital import Edital, StatusEditalEnum
+from app.models.edital import Edital, StatusEditalEnum, FiltroConfig
 from app.schemas.edital import (
     EditalOut, EditalStatusUpdate, EditalListResponse,
     ScraperRunRequest, ScraperJobResponse,
+    FiltroConfigOut, FiltroConfigCreate,
 )
 
 router = APIRouter(prefix="/api", tags=["editais"])
@@ -108,6 +109,50 @@ async def atualizar_status_edital(
     await db.flush()
     await db.refresh(edital)
     return EditalOut.model_validate(edital)
+
+
+@router.get("/filtros", response_model=Optional[FiltroConfigOut])
+async def obter_filtro_ativo(
+    current_user=Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Retorna o perfil de busca (filtro) ativo, se existir."""
+    result = await db.execute(
+        select(FiltroConfig).where(FiltroConfig.ativo == True).order_by(FiltroConfig.updated_at.desc())
+    )
+    filtro = result.scalars().first()
+    if not filtro:
+        return None
+    return FiltroConfigOut.model_validate(filtro)
+
+
+@router.put("/filtros", response_model=FiltroConfigOut)
+async def salvar_filtro(
+    payload: FiltroConfigCreate,
+    current_user=Depends(require_analista()),
+    db: AsyncSession = Depends(get_db),
+):
+    """Cria ou atualiza o perfil de busca (filtro) ativo."""
+    result = await db.execute(
+        select(FiltroConfig).where(FiltroConfig.ativo == True).order_by(FiltroConfig.updated_at.desc())
+    )
+    filtro = result.scalars().first()
+    if filtro is None:
+        filtro = FiltroConfig(id=uuid.uuid4())
+        db.add(filtro)
+
+    filtro.palavras_chave = payload.palavras_chave
+    filtro.palavras_excluir = payload.palavras_excluir
+    filtro.valor_minimo = payload.valor_minimo
+    filtro.valor_maximo = payload.valor_maximo
+    filtro.modalidades = payload.modalidades
+    filtro.ufs = payload.ufs
+    filtro.portais = payload.portais
+    filtro.ativo = payload.ativo
+
+    await db.flush()
+    await db.refresh(filtro)
+    return FiltroConfigOut.model_validate(filtro)
 
 
 @router.post("/scraper/run", response_model=ScraperJobResponse, status_code=status.HTTP_202_ACCEPTED)

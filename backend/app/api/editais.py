@@ -6,11 +6,13 @@ from typing import Optional, List
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func, and_
+from sqlalchemy import select, func, and_, or_
+from typing import Any, Dict
 
 from app.database import get_db
 from app.auth import get_current_user, require_analista
 from app.models.edital import Edital, StatusEditalEnum, FiltroConfig
+from app.models.proposta import Proposta, StatusPropostaEnum
 from app.schemas.edital import (
     EditalOut, EditalStatusUpdate, EditalListResponse,
     ScraperRunRequest, ScraperJobResponse,
@@ -153,6 +155,70 @@ async def salvar_filtro(
     await db.flush()
     await db.refresh(filtro)
     return FiltroConfigOut.model_validate(filtro)
+
+
+@router.get("/editais/stats")
+async def stats_editais(
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
+) -> Dict[str, Any]:
+    """Retorna estatísticas de editais e propostas para os gráficos."""
+    # Contagem de editais por status
+    rows = (await db.execute(
+        select(Edital.status, func.count().label("n")).group_by(Edital.status)
+    )).all()
+    por_status = {r.status.value: r.n for r in rows}
+
+    # Taxa de ganho / perda com base em propostas finalizadas
+    total_fin = (await db.execute(
+        select(func.count()).where(
+            Proposta.status.in_([StatusPropostaEnum.vencedora, StatusPropostaEnum.perdida])
+        )
+    )).scalar_one()
+    total_vencidas = (await db.execute(
+        select(func.count()).where(Proposta.status == StatusPropostaEnum.vencedora)
+    )).scalar_one()
+    taxa_ganho = round(total_vencidas / total_fin * 100) if total_fin else 0
+
+    # Padrão de vitória: orgao + modalidade das propostas vencedoras ligadas a editais
+    vencidas_q = (await db.execute(
+        select(Edital.orgao, Edital.modalidade, Edital.uf)
+        .join(Proposta, Proposta.edital_id == Edital.id)
+        .where(Proposta.status == StatusPropostaEnum.vencedora)
+    )).all()
+    orgaos_vencidos = {r.orgao for r in vencidas_q}
+    modalidades_vencidas = {r.modalidade for r in vencidas_q}
+    ufs_vencidas = {r.uf for r in vencidas_q if r.uf}
+
+    # Editais novos/em_analise que se encaixam no padrão de vitória
+    recomendados: List[EditalOut] = []
+    if orgaos_vencidos or modalidades_vencidas:
+        filters = []
+        if orgaos_vencidos:
+            filters.append(Edital.orgao.in_(orgaos_vencidos))
+        if modalidades_vencidas:
+            filters.append(Edital.modalidade.in_(modalidades_vencidas))
+        if ufs_vencidas:
+            filters.append(Edital.uf.in_(ufs_vencidas))
+
+        res = await db.execute(
+            select(Edital)
+            .where(
+                Edital.status.in_([StatusEditalEnum.novo, StatusEditalEnum.em_analise]),
+                or_(*filters),
+            )
+            .order_by(Edital.relevancia_score.desc())
+            .limit(10)
+        )
+        recomendados = [EditalOut.model_validate(e) for e in res.scalars().all()]
+
+    return {
+        "por_status": por_status,
+        "taxa_ganho": taxa_ganho,
+        "taxa_perda": 100 - taxa_ganho if total_fin else 0,
+        "total_finalizadas": total_fin,
+        "recomendados": [e.model_dump(mode="json") for e in recomendados],
+    }
 
 
 @router.post("/scraper/run", response_model=ScraperJobResponse, status_code=status.HTTP_202_ACCEPTED)

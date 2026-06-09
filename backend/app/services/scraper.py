@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, timezone
 from typing import List, Dict, Any, Optional
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, delete
 
 from app.config import settings
 from app.models.edital import Edital, FiltroConfig, StatusEditalEnum, ModalidadeEnum
@@ -306,6 +306,16 @@ async def run_scraper(portal: str) -> Dict[str, Any]:
 
         start_time = datetime.now(timezone.utc)
         try:
+            # Descarta editais "novo" do portal antes de inserir os novos resultados,
+            # garantindo que a tela mostre apenas o resultado da busca mais recente.
+            # Editais já triados (estrela/lixeira/proposta) são preservados.
+            await db.execute(
+                delete(Edital).where(
+                    Edital.portal_origem == portal,
+                    Edital.status == StatusEditalEnum.novo,
+                )
+            )
+
             resultados = await scraper_fn(db)
             _falhas_consecutivas[portal] = 0
 

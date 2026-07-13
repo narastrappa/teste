@@ -1,0 +1,9 @@
+[
+  { "id": "futsal", "nome": "Futsal", "icone": "⚽", "tipo": "coletivo" },
+  { "id": "volei", "nome": "Vôlei", "icone": "🏐", "tipo": "coletivo" },
+  { "id": "handebol", "nome": "Handebol", "icone": "🤾", "tipo": "coletivo" },
+  { "id": "basquete", "nome": "Basquete", "icone": "🏀", "tipo": "coletivo" },
+  { "id": "tenis-mesa", "nome": "Tênis de Mesa", "icone": "🏓", "tipo": "individual" },
+  { "id": "xadrez", "nome": "Xadrez", "icone": "♟️", "tipo": "individual" },
+  { "id": "atletismo", "nome": "Atletismo", "icone": "🏃", "tipo": "individual" }
+]

@@ -1,0 +1,28 @@
+[
+  { "id": "fut-01", "data": "2026-07-08", "hora": "09:00", "modalidadeId": "futsal", "fase": "Classificatória", "local": "Quadra 1", "timeA": "azul", "timeB": "verde", "placarA": 3, "placarB": 1, "status": "realizado" },
+  { "id": "fut-02", "data": "2026-07-08", "hora": "10:00", "modalidadeId": "futsal", "fase": "Classificatória", "local": "Quadra 1", "timeA": "amarelo", "timeB": "vermelho", "placarA": 2, "placarB": 2, "status": "realizado" },
+  { "id": "fut-03", "data": "2026-07-10", "hora": "09:00", "modalidadeId": "futsal", "fase": "Classificatória", "local": "Quadra 1", "timeA": "azul", "timeB": "amarelo", "placarA": 4, "placarB": 0, "status": "realizado" },
+  { "id": "fut-04", "data": "2026-07-10", "hora": "10:00", "modalidadeId": "futsal", "fase": "Classificatória", "local": "Quadra 1", "timeA": "verde", "timeB": "vermelho", "placarA": 1, "placarB": 1, "status": "realizado" },
+  { "id": "fut-05", "data": "2026-07-15", "hora": "09:00", "modalidadeId": "futsal", "fase": "Semifinal", "local": "Quadra 1", "timeA": "azul", "timeB": "vermelho", "placarA": null, "placarB": null, "status": "agendado" },
+  { "id": "fut-06", "data": "2026-07-15", "hora": "10:00", "modalidadeId": "futsal", "fase": "Semifinal", "local": "Quadra 1", "timeA": "verde", "timeB": "amarelo", "placarA": null, "placarB": null, "status": "agendado" },
+  { "id": "fut-07", "data": "2026-07-17", "hora": "15:00", "modalidadeId": "futsal", "fase": "Final", "local": "Quadra 1", "timeA": null, "timeB": null, "placarA": null, "placarB": null, "status": "agendado" },
+
+  { "id": "vol-01", "data": "2026-07-09", "hora": "14:00", "modalidadeId": "volei", "fase": "Classificatória", "local": "Quadra 2", "timeA": "azul", "timeB": "verde", "placarA": 3, "placarB": 1, "status": "realizado" },
+  { "id": "vol-02", "data": "2026-07-09", "hora": "15:30", "modalidadeId": "volei", "fase": "Classificatória", "local": "Quadra 2", "timeA": "amarelo", "timeB": "vermelho", "placarA": 3, "placarB": 0, "status": "realizado" },
+  { "id": "vol-03", "data": "2026-07-16", "hora": "14:00", "modalidadeId": "volei", "fase": "Semifinal", "local": "Quadra 2", "timeA": "azul", "timeB": "amarelo", "placarA": null, "placarB": null, "status": "agendado" },
+
+  { "id": "han-01", "data": "2026-07-11", "hora": "16:00", "modalidadeId": "handebol", "fase": "Classificatória", "local": "Ginásio", "timeA": "azul", "timeB": "vermelho", "placarA": 15, "placarB": 10, "status": "realizado" },
+  { "id": "han-02", "data": "2026-07-16", "hora": "16:00", "modalidadeId": "handebol", "fase": "Semifinal", "local": "Ginásio", "timeA": "verde", "timeB": "amarelo", "placarA": null, "placarB": null, "status": "agendado" },
+
+  { "id": "bas-01", "data": "2026-07-11", "hora": "17:30", "modalidadeId": "basquete", "fase": "Classificatória", "local": "Ginásio", "timeA": "verde", "timeB": "amarelo", "placarA": 40, "placarB": 35, "status": "realizado" },
+  { "id": "bas-02", "data": "2026-07-17", "hora": "17:00", "modalidadeId": "basquete", "fase": "Semifinal", "local": "Ginásio", "timeA": "azul", "timeB": "vermelho", "placarA": null, "placarB": null, "status": "agendado" },
+
+  { "id": "tm-01", "data": "2026-07-09", "hora": "09:00", "modalidadeId": "tenis-mesa", "fase": "Classificatória", "local": "Sala de Jogos", "timeA": "azul", "timeB": "verde", "placarA": 3, "placarB": 2, "status": "realizado" },
+  { "id": "tm-02", "data": "2026-07-16", "hora": "09:00", "modalidadeId": "tenis-mesa", "fase": "Semifinal", "local": "Sala de Jogos", "timeA": "amarelo", "timeB": "vermelho", "placarA": null, "placarB": null, "status": "agendado" },
+
+  { "id": "xad-01", "data": "2026-07-10", "hora": "13:00", "modalidadeId": "xadrez", "fase": "Classificatória", "local": "Biblioteca", "timeA": "amarelo", "timeB": "azul", "placarA": 1, "placarB": 0, "status": "realizado" },
+  { "id": "xad-02", "data": "2026-07-17", "hora": "13:00", "modalidadeId": "xadrez", "fase": "Semifinal", "local": "Biblioteca", "timeA": "verde", "timeB": "vermelho", "placarA": null, "placarB": null, "status": "agendado" },
+
+  { "id": "atl-01", "data": "2026-07-12", "hora": "08:00", "modalidadeId": "atletismo", "fase": "Classificatória", "local": "Pista do Campus", "timeA": null, "timeB": null, "placarA": null, "placarB": null, "status": "realizado", "observacao": "1º Time Verde · 2º Time Amarelo · 3º Time Azul · 4º Time Vermelho" },
+  { "id": "atl-02", "data": "2026-07-17", "hora": "08:00", "modalidadeId": "atletismo", "fase": "Final", "local": "Pista do Campus", "timeA": null, "timeB": null, "placarA": null, "placarB": null, "status": "agendado" }
+]

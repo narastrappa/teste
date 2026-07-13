@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>Calendário · Jogos Internos IFBaiano</title>
+  <meta name="description" content="Calendário de partidas dos Jogos Internos do Campus Alagoinhas do IFBaiano.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main class="container">
+    <section>
+      <div class="section-title">
+        <h2>Calendário de jogos</h2>
+      </div>
+
+      <div class="filtros">
+        <select id="filtro-modalidade" aria-label="Filtrar por modalidade">
+          <option value="">Todas as modalidades</option>
+        </select>
+        <select id="filtro-status" aria-label="Filtrar por status">
+          <option value="">Todos os status</option>
+          <option value="agendado">Agendados</option>
+          <option value="realizado">Realizados</option>
+        </select>
+      </div>
+
+      <div id="lista-jogos"></div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/calendario.js"></script>
+</body>
+</html>

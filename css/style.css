@@ -1,8 +1,8 @@
 /* ===================================================================
    JIFAL — Jogos Internos IF Baiano Campus Alagoinhas
    Paleta baseada na identidade visual do Instituto: verde institucional
-   (predominante em toda a marca do IF Baiano) + dourado como cor de
-   destaque/medalhas, sobre branco e grafite para textos.
+   (predominante em toda a marca do IF Baiano) + vermelho institucional
+   como cor de destaque, sobre branco e grafite para textos.
 =================================================================== */
 
 :root {
@@ -11,8 +11,8 @@
   --verde-medio: #1c7a4f;
   --verde-claro: #4caf6d;
   --verde-suave: #e6f2ea;
-  --dourado: #f2b705;
-  --dourado-escuro: #c99a02;
+  --vermelho: #e0212a;
+  --vermelho-escuro: #a8161e;
   --grafite: #1c2420;
   --cinza: #5b6b63;
   --cinza-claro: #b9c6bf;
@@ -81,7 +81,7 @@ img { max-width: 100%; display: block; }
 }
 
 .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-.brand-text strong { font-size: 1.35rem; letter-spacing: 1px; color: var(--dourado); }
+.brand-text strong { font-size: 1.35rem; letter-spacing: 1px; color: var(--vermelho); }
 .brand-text small { font-size: 0.7rem; color: var(--cinza-claro); }
 
 .nav {
@@ -97,16 +97,16 @@ img { max-width: 100%; display: block; }
   opacity: 0.9;
   transition: opacity 0.2s, color 0.2s;
 }
-.nav a:hover { opacity: 1; color: var(--dourado); }
+.nav a:hover { opacity: 1; color: var(--vermelho); }
 .nav-cta {
-  background: var(--dourado);
+  background: var(--vermelho);
   color: var(--verde-escuro) !important;
   padding: 8px 16px;
   border-radius: 999px;
   font-weight: 700 !important;
   opacity: 1 !important;
 }
-.nav-cta:hover { background: var(--dourado-escuro); }
+.nav-cta:hover { background: var(--vermelho-escuro); }
 
 .nav-toggle {
   display: none;
@@ -138,7 +138,7 @@ img { max-width: 100%; display: block; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 15% 20%, rgba(242,183,5,0.25), transparent 45%),
+    radial-gradient(circle at 15% 20%, rgba(224,33,42,0.25), transparent 45%),
     radial-gradient(circle at 85% 80%, rgba(76,175,109,0.35), transparent 50%),
     linear-gradient(135deg, var(--verde-escuro), var(--verde) 60%, var(--verde-medio));
   z-index: -1;
@@ -148,7 +148,7 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   letter-spacing: 3px;
   font-size: 0.8rem;
-  color: var(--dourado);
+  color: var(--vermelho);
   font-weight: 700;
   margin: 0 0 10px;
 }
@@ -157,7 +157,7 @@ img { max-width: 100%; display: block; }
   margin: 0 0 14px;
   font-weight: 800;
 }
-.hero h1 span { color: var(--dourado); }
+.hero h1 span { color: var(--vermelho); }
 .hero-sub {
   max-width: 620px;
   margin: 0 auto 30px;
@@ -174,12 +174,12 @@ img { max-width: 100%; display: block; }
 }
 .hero-stats div {
   background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(242,183,5,0.4);
+  border: 1px solid rgba(224,33,42,0.4);
   border-radius: var(--radius);
   padding: 12px 20px;
   min-width: 84px;
 }
-.hero-stats strong { display: block; font-size: 1.8rem; color: var(--dourado); }
+.hero-stats strong { display: block; font-size: 1.8rem; color: var(--vermelho); }
 .hero-stats span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
 
 .hero-date { margin-bottom: 30px; color: rgba(255,255,255,0.9); }
@@ -201,8 +201,8 @@ img { max-width: 100%; display: block; }
   border: 2px solid transparent;
 }
 .btn:hover { transform: translateY(-2px); }
-.btn-primary { background: var(--dourado); color: var(--verde-escuro); }
-.btn-primary:hover { background: var(--dourado-escuro); }
+.btn-primary { background: var(--vermelho); color: var(--verde-escuro); }
+.btn-primary:hover { background: var(--vermelho-escuro); }
 .btn-ghost { border-color: rgba(255,255,255,0.6); color: var(--branco); }
 .btn-ghost:hover { background: rgba(255,255,255,0.12); }
 
@@ -222,7 +222,7 @@ img { max-width: 100%; display: block; }
   display: block;
   width: 60px;
   height: 4px;
-  background: var(--dourado);
+  background: var(--vermelho);
   border-radius: 2px;
   margin-top: 10px;
 }
@@ -248,7 +248,7 @@ img { max-width: 100%; display: block; }
   padding: 20px;
   text-align: center;
   box-shadow: var(--shadow-sm);
-  border-top: 3px solid var(--dourado);
+  border-top: 3px solid var(--vermelho);
 }
 .mini-card-icon { font-size: 1.6rem; display: block; margin-bottom: 6px; }
 .mini-card strong { display: block; font-size: 1.7rem; color: var(--verde-escuro); }
@@ -287,8 +287,8 @@ img { max-width: 100%; display: block; }
   margin-top: 10px;
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--dourado-escuro);
-  background: #fff6df;
+  color: var(--vermelho-escuro);
+  background: #fdeaea;
   padding: 3px 10px;
   border-radius: 999px;
 }
@@ -381,7 +381,7 @@ img { max-width: 100%; display: block; }
 }
 .table tbody tr:hover { background: var(--verde-suave); }
 .table tbody tr:nth-child(1) td:first-child,
-.table td.rank-1 { color: var(--dourado-escuro); font-weight: 800; }
+.table td.rank-1 { color: var(--vermelho-escuro); font-weight: 800; }
 
 .status-pill {
   display: inline-block;
@@ -412,7 +412,7 @@ img { max-width: 100%; display: block; }
   padding: 22px;
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
-  border-left: 4px solid var(--dourado);
+  border-left: 4px solid var(--vermelho);
 }
 .regra-card h3 { margin: 0 0 8px; color: var(--verde-escuro); font-size: 1.05rem; }
 .regra-card p { margin: 0; color: var(--cinza); font-size: 0.92rem; }
@@ -431,7 +431,7 @@ img { max-width: 100%; display: block; }
   padding-bottom: 24px;
   border-bottom: 1px solid rgba(255,255,255,0.15);
 }
-.footer-brand strong { color: var(--dourado); font-size: 1.3rem; }
+.footer-brand strong { color: var(--vermelho); font-size: 1.3rem; }
 .footer-brand p { color: var(--cinza-claro); }
 .footer-info p, .footer-social a {
   color: rgba(255,255,255,0.85);
@@ -440,7 +440,7 @@ img { max-width: 100%; display: block; }
   display: block;
   font-size: 0.92rem;
 }
-.footer-social a:hover { color: var(--dourado); }
+.footer-social a:hover { color: var(--vermelho); }
 .footer-copy {
   text-align: center;
   color: rgba(255,255,255,0.5);

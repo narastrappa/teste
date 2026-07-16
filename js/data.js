@@ -20,9 +20,9 @@ const EQUIPES = [
   { id: "agro", nome: "Agropecuária", cor: "#0f5c3d", capitao: "Ana Souza", lema: "Raiz forte, time forte" },
   { id: "info", nome: "Informática", cor: "#1c7a4f", capitao: "Lucas Farias", lema: "Compilando vitórias" },
   { id: "quimica", nome: "Química", cor: "#4caf6d", capitao: "Beatriz Nunes", lema: "Reação em cadeia" },
-  { id: "admin", nome: "Administração", cor: "#c99a02", capitao: "Pedro Lima", lema: "Gestão de resultados" },
+  { id: "admin", nome: "Administração", cor: "#e0212a", capitao: "Pedro Lima", lema: "Gestão de resultados" },
   { id: "meioamb", nome: "Meio Ambiente", cor: "#2e8b57", capitao: "Rafaela Dias", lema: "Sustentando o jogo" },
-  { id: "alimentos", nome: "Alimentos", cor: "#f2b705", capitao: "Diego Rocha", lema: "Tempero de campeão" },
+  { id: "alimentos", nome: "Alimentos", cor: "#a8161e", capitao: "Diego Rocha", lema: "Tempero de campeão" },
 ];
 
 /* status: "agendado" | "ao-vivo" | "encerrado" */

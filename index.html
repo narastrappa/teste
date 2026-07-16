@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JIFAL 2026 — Jogos Internos do IF Baiano Campus Alagoinhas</title>
+<meta name="description" content="Site oficial dos Jogos Internos do IF Baiano Campus Alagoinhas (JIFAL): modalidades, tabela de jogos, resultados, classificação e equipes.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="site-header" id="topo">
+  <div class="container header-inner">
+    <a href="#topo" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="42" height="42">
+          <circle cx="32" cy="32" r="30" fill="var(--verde-escuro)"/>
+          <circle cx="32" cy="32" r="30" fill="none" stroke="var(--dourado)" stroke-width="3"/>
+          <path d="M32 12 L38 26 L53 26 L41 35 L46 50 L32 41 L18 50 L23 35 L11 26 L26 26 Z" fill="var(--dourado)"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <strong>JIFAL</strong>
+        <small>Jogos Internos · Campus Alagoinhas</small>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="navMenu">
+      <a href="#sobre">Sobre</a>
+      <a href="#modalidades">Modalidades</a>
+      <a href="#jogos">Jogos</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#equipes">Equipes</a>
+      <a href="#regulamento">Regulamento</a>
+      <a href="#contato" class="nav-cta">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <p class="eyebrow">IF Baiano · Campus Alagoinhas</p>
+      <h1>JIFAL <span>2026</span></h1>
+      <p class="hero-sub">Jogos Internos do IF Baiano Campus Alagoinhas — integração, esporte e espírito de equipe entre estudantes de todos os cursos.</p>
+
+      <div class="hero-stats">
+        <div><strong id="cd-dias">00</strong><span>dias</span></div>
+        <div><strong id="cd-horas">00</strong><span>horas</span></div>
+        <div><strong id="cd-min">00</strong><span>min</span></div>
+        <div><strong id="cd-seg">00</strong><span>seg</span></div>
+      </div>
+      <p class="hero-date">📅 De 22 a 30 de outubro de 2026 · 📍 Ginásio e quadras do Campus Alagoinhas</p>
+
+      <div class="hero-actions">
+        <a href="#jogos" class="btn btn-primary">Ver tabela de jogos</a>
+        <a href="#equipes" class="btn btn-ghost">Conhecer as equipes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre" class="section">
+    <div class="container">
+      <h2 class="section-title">Sobre o JIFAL</h2>
+      <div class="about-grid">
+        <p>
+          O <strong>JIFAL</strong> é o evento esportivo, cultural e de integração do IF Baiano
+          Campus Alagoinhas, reunindo estudantes dos cursos técnicos integrados, subsequentes
+          e superiores em disputas saudáveis dentro e fora de quadra. Mais do que competição,
+          o JIFAL celebra companheirismo, saúde e o espírito de pertencimento à comunidade
+          acadêmica.
+        </p>
+        <div class="about-cards">
+          <div class="mini-card">
+            <span class="mini-card-icon">🏆</span>
+            <strong>9</strong>
+            <small>modalidades</small>
+          </div>
+          <div class="mini-card">
+            <span class="mini-card-icon">👥</span>
+            <strong>6</strong>
+            <small>equipes</small>
+          </div>
+          <div class="mini-card">
+            <span class="mini-card-icon">📆</span>
+            <strong>9</strong>
+            <small>dias de disputa</small>
+          </div>
+          <div class="mini-card">
+            <span class="mini-card-icon">🥇</span>
+            <strong>+40</strong>
+            <small>partidas</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODALIDADES -->
+  <section id="modalidades" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Modalidades</h2>
+      <p class="section-sub">Confira as disputas oficiais desta edição do JIFAL.</p>
+
+      <div class="cards-grid" id="modalidadesGrid">
+        <!-- preenchido via JS a partir de data.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- JOGOS -->
+  <section id="jogos" class="section">
+    <div class="container">
+      <h2 class="section-title">Tabela de Jogos</h2>
+      <p class="section-sub">Programação de partidas por dia e modalidade.</p>
+
+      <div class="filters" id="jogosFiltros">
+        <label for="filtroModalidade">Modalidade</label>
+        <select id="filtroModalidade">
+          <option value="todas">Todas</option>
+        </select>
+
+        <label for="filtroDia">Dia</label>
+        <select id="filtroDia">
+          <option value="todos">Todos</option>
+        </select>
+
+        <label for="filtroStatus">Status</label>
+        <select id="filtroStatus">
+          <option value="todos">Todos</option>
+          <option value="agendado">Agendado</option>
+          <option value="ao-vivo">Ao vivo</option>
+          <option value="encerrado">Encerrado</option>
+        </select>
+      </div>
+
+      <div class="table-scroll">
+        <table class="table" id="tabelaJogos">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Horário</th>
+              <th>Modalidade</th>
+              <th>Confronto</th>
+              <th>Local</th>
+              <th>Placar</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody><!-- JS --></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS / CLASSIFICAÇÃO -->
+  <section id="resultados" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Resultados e Classificação</h2>
+      <p class="section-sub">Selecione a modalidade para ver a tabela de classificação.</p>
+
+      <div class="tabs" id="resultadosTabs" role="tablist"></div>
+
+      <div class="table-scroll">
+        <table class="table" id="tabelaClassificacao">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Equipe</th>
+              <th>J</th>
+              <th>V</th>
+              <th>E</th>
+              <th>D</th>
+              <th>Pts</th>
+            </tr>
+          </thead>
+          <tbody><!-- JS --></tbody>
+        </table>
+      </div>
+
+      <h3 class="subtitle">Quadro Geral de Medalhas</h3>
+      <div class="table-scroll">
+        <table class="table" id="tabelaMedalhas">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Equipe</th>
+              <th>🥇 Ouro</th>
+              <th>🥈 Prata</th>
+              <th>🥉 Bronze</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody><!-- JS --></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPES -->
+  <section id="equipes" class="section">
+    <div class="container">
+      <h2 class="section-title">Equipes</h2>
+      <p class="section-sub">Cada curso representa uma equipe no JIFAL.</p>
+
+      <div class="cards-grid" id="equipesGrid">
+        <!-- JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- REGULAMENTO -->
+  <section id="regulamento" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Regulamento Resumido</h2>
+      <div class="regras-grid">
+        <div class="regra-card">
+          <h3>Inscrições</h3>
+          <p>Cada curso/turma deve inscrever sua equipe junto à Comissão Organizadora até a data limite, indicando capitão(ã) e lista de atletas.</p>
+        </div>
+        <div class="regra-card">
+          <h3>Pontuação</h3>
+          <p>Vitória: 3 pts · Empate: 1 pt · Derrota: 0 pt. Critérios de desempate: saldo de pontos, confronto direto e sorteio.</p>
+        </div>
+        <div class="regra-card">
+          <h3>Fair Play</h3>
+          <p>Condutas antidesportivas, W.O. injustificado ou indisciplina resultam em advertência, suspensão ou desclassificação da equipe.</p>
+        </div>
+        <div class="regra-card">
+          <h3>Arbitragem</h3>
+          <p>As decisões da arbitragem e da Comissão Organizadora são soberanas. Recursos devem ser protocolados em até 24h após a partida.</p>
+        </div>
+      </div>
+      <p class="regulamento-nota">📄 O regulamento completo (PDF) estará disponível na secretaria acadêmica e nos murais do campus.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" id="contato">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <strong>JIFAL</strong>
+      <p>Jogos Internos do IF Baiano — Campus Alagoinhas</p>
+    </div>
+    <div class="footer-info">
+      <p>📍 Rod. BR 110, Km 03, Alto do Cruzeiro — Alagoinhas/BA</p>
+      <p>✉️ jifal@alagoinhas.ifbaiano.edu.br</p>
+      <p>☎️ (75) 3000-0000</p>
+    </div>
+    <div class="footer-social">
+      <a href="#" aria-label="Instagram do campus">Instagram</a>
+      <a href="#" aria-label="Site do campus">Site do Campus</a>
+      <a href="#" aria-label="E-mail da comissão organizadora">Comissão Organizadora</a>
+    </div>
+  </div>
+  <p class="footer-copy">© 2026 IF Baiano · Campus Alagoinhas. Site não oficial de exemplo para o JIFAL.</p>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

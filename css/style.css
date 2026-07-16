@@ -61,28 +61,28 @@ img { max-width: 100%; display: block; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--verde-escuro);
+  background: var(--branco);
   box-shadow: var(--shadow-sm);
+  border-bottom: 3px solid var(--verde);
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
+  height: 76px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
   text-decoration: none;
-  color: var(--branco);
 }
-
-.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-.brand-text strong { font-size: 1.35rem; letter-spacing: 1px; color: var(--vermelho); }
-.brand-text small { font-size: 0.7rem; color: var(--cinza-claro); }
+.brand-logo {
+  height: 52px;
+  width: auto;
+  display: block;
+}
 
 .nav {
   display: flex;
@@ -90,17 +90,17 @@ img { max-width: 100%; display: block; }
   gap: 26px;
 }
 .nav a {
-  color: var(--branco);
+  color: var(--verde-escuro);
   text-decoration: none;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   opacity: 0.9;
   transition: opacity 0.2s, color 0.2s;
 }
 .nav a:hover { opacity: 1; color: var(--vermelho); }
 .nav-cta {
   background: var(--vermelho);
-  color: var(--verde-escuro) !important;
+  color: var(--branco) !important;
   padding: 8px 16px;
   border-radius: 999px;
   font-weight: 700 !important;
@@ -123,7 +123,7 @@ img { max-width: 100%; display: block; }
   display: block;
   height: 2px;
   width: 100%;
-  background: var(--branco);
+  background: var(--verde-escuro);
   border-radius: 2px;
 }
 
@@ -457,7 +457,7 @@ img { max-width: 100%; display: block; }
   .nav-toggle { display: flex; }
   .nav {
     position: absolute;
-    top: 72px;
+    top: 76px;
     left: 0;
     right: 0;
     background: var(--verde-escuro);
@@ -469,6 +469,8 @@ img { max-width: 100%; display: block; }
     overflow: hidden;
     transition: max-height 0.3s ease;
   }
+  .nav a { color: var(--branco); }
+  .nav a:hover { color: var(--vermelho); }
   .nav.open { max-height: 400px; }
   .nav-cta { align-self: flex-start; }
 }

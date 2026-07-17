@@ -416,7 +416,15 @@ img { max-width: 100%; display: block; }
 }
 .regra-card h3 { margin: 0 0 8px; color: var(--verde-escuro); font-size: 1.05rem; }
 .regra-card p { margin: 0; color: var(--cinza); font-size: 0.92rem; }
-.regulamento-nota { margin-top: 26px; color: var(--cinza); font-style: italic; }
+.regulamento-nota { margin-top: 26px; color: var(--cinza); }
+.regulamento-nota a {
+  color: var(--vermelho);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 2px solid var(--vermelho);
+  padding-bottom: 1px;
+}
+.regulamento-nota a:hover { color: var(--vermelho-escuro); border-color: var(--vermelho-escuro); }
 
 /* Footer */
 .site-footer {
@@ -431,7 +439,9 @@ img { max-width: 100%; display: block; }
   padding-bottom: 24px;
   border-bottom: 1px solid rgba(255,255,255,0.15);
 }
-.footer-brand strong { color: var(--vermelho); font-size: 1.3rem; }
+.footer-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.footer-logo { height: 36px; width: auto; }
+.footer-brand strong { color: var(--vermelho); font-size: 1.3rem; letter-spacing: 1px; }
 .footer-brand p { color: var(--cinza-claro); }
 .footer-info p, .footer-social a {
   color: rgba(255,255,255,0.85);

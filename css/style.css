@@ -1,8 +1,10 @@
 /* ===================================================================
-   JIFAL — Jogos Internos IF Baiano Campus Alagoinhas
+   JIIFAL — Jogos Internos IF Baiano, Campus Alagoinhas
    Paleta baseada na identidade visual do Instituto: verde institucional
    (predominante em toda a marca do IF Baiano) + vermelho institucional
-   como cor de destaque, sobre branco e grafite para textos.
+   como cor de destaque, sobre branco e grafite para textos. As cores
+   das 4 equipes (azul, amarela, vermelha, laranja) seguem o card
+   oficial de apresentação.
 =================================================================== */
 
 :root {
@@ -160,9 +162,19 @@ img { max-width: 100%; display: block; }
 .hero h1 span { color: var(--vermelho); }
 .hero-sub {
   max-width: 620px;
-  margin: 0 auto 30px;
+  margin: 0 auto 6px;
   font-size: 1.1rem;
   color: rgba(255,255,255,0.9);
+}
+.hero-sub strong { color: var(--branco); }
+.hero-sub2 {
+  max-width: 620px;
+  margin: 0 auto 26px;
+  font-size: 0.95rem;
+  color: var(--vermelho);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .hero-stats {
@@ -176,13 +188,14 @@ img { max-width: 100%; display: block; }
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(224,33,42,0.4);
   border-radius: var(--radius);
-  padding: 12px 20px;
+  padding: 14px 26px;
   min-width: 84px;
 }
-.hero-stats strong { display: block; font-size: 1.8rem; color: var(--vermelho); }
+.hero-stats strong { display: block; font-size: 2.4rem; color: var(--vermelho); line-height: 1; }
 .hero-stats span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
 
-.hero-date { margin-bottom: 30px; color: rgba(255,255,255,0.9); }
+.hero-date { margin: 0 0 6px; color: rgba(255,255,255,0.9); font-weight: 600; }
+.hero-local { margin: 0 0 30px; color: rgba(255,255,255,0.75); font-size: 0.9rem; }
 
 .hero-actions {
   display: flex;
@@ -293,62 +306,55 @@ img { max-width: 100%; display: block; }
   border-radius: 999px;
 }
 
-/* Equipes cards */
-.equipe-card { border-bottom: 4px solid var(--cor-equipe, var(--verde)); }
-.equipe-color-dot {
-  width: 14px; height: 14px; border-radius: 50%;
-  display: inline-block; margin-right: 6px;
-  background: var(--cor-equipe, var(--verde));
-  vertical-align: middle;
+/* Equipes — cards com faixa colorida no estilo do card oficial */
+.equipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
 }
-.equipe-card .capitao { font-size: 0.85rem; color: var(--cinza); margin-top: 8px; }
-
-/* Filters */
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  align-items: center;
-  margin-bottom: 24px;
+.equipe-card {
   background: var(--branco);
-  padding: 16px 20px;
   border-radius: var(--radius);
+  overflow: hidden;
   box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-bottom: 4px solid var(--cor-equipe);
 }
-.filters label {
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--verde-escuro);
-}
-.filters select {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--cinza-claro);
-  background: var(--off-white);
-  font-family: inherit;
-  font-size: 0.9rem;
-}
-
-/* Tabs */
-.tabs {
+.equipe-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.equipe-card-header {
+  background: linear-gradient(135deg, var(--cor-equipe), var(--cor-equipe-escura));
+  color: var(--branco);
+  padding: 18px 20px;
   display: flex;
-  flex-wrap: wrap;
+  align-items: baseline;
   gap: 10px;
-  margin-bottom: 24px;
 }
-.tab-btn {
-  padding: 9px 18px;
+.equipe-card-tag { font-size: 0.85rem; font-weight: 600; opacity: 0.9; }
+.equipe-card-numero { font-size: 2rem; font-weight: 800; line-height: 1; }
+.equipe-card-cor {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: rgba(255,255,255,0.22);
+  padding: 4px 10px;
   border-radius: 999px;
-  border: 2px solid var(--verde);
-  background: transparent;
-  color: var(--verde-escuro);
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 0.88rem;
-  transition: background 0.2s, color 0.2s;
 }
-.tab-btn:hover { background: var(--verde-suave); }
-.tab-btn.active { background: var(--verde); color: var(--branco); }
+.equipe-card-body { padding: 20px; }
+.equipe-card-turmas h4 {
+  margin: 0 0 8px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--cinza);
+}
+.equipe-card-turmas ul { margin: 0 0 18px; padding-left: 18px; color: var(--grafite); font-size: 0.9rem; }
+.equipe-card-turmas li { margin-bottom: 4px; }
+.equipe-card-info { display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--verde-suave); padding-top: 16px; }
+.equipe-card-info > div { display: flex; align-items: center; gap: 10px; }
+.equipe-card-icon { font-size: 1.3rem; }
+.equipe-card-info small { display: block; font-size: 0.72rem; color: var(--cinza); text-transform: uppercase; letter-spacing: 0.5px; }
+.equipe-card-info strong { color: var(--verde-escuro); font-size: 1rem; }
 
 /* Tables */
 .table-scroll {
@@ -380,26 +386,75 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.5px;
 }
 .table tbody tr:hover { background: var(--verde-suave); }
-.table tbody tr:nth-child(1) td:first-child,
-.table td.rank-1 { color: var(--vermelho-escuro); font-weight: 800; }
 
-.status-pill {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 700;
+/* Modalidades — detalhes extras nos cards */
+.card-detalhe { color: var(--cinza); font-size: 0.85rem; margin-top: 6px !important; }
+.card-limite { color: var(--verde-escuro); font-size: 0.85rem; font-weight: 600; margin-top: 8px !important; }
+
+/* Programação */
+.programacao-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+  margin-bottom: 40px;
 }
-.status-agendado { background: #e7eef5; color: #2a5b8a; }
-.status-ao-vivo { background: #fdeaea; color: #c0392b; animation: pulse 1.6s infinite; }
-.status-encerrado { background: var(--verde-suave); color: var(--verde-escuro); }
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.55; }
+.programacao-dia {
+  background: var(--branco);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  border-top: 4px solid var(--verde);
 }
+.programacao-dia h3 {
+  margin: 0 0 16px;
+  color: var(--verde-escuro);
+  font-size: 1.05rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.programacao-dia h3 span { font-size: 0.8rem; color: var(--vermelho); font-weight: 700; }
+.programacao-dia ul { list-style: none; margin: 0; padding: 0; }
+.programacao-dia li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--verde-suave);
+  font-size: 0.9rem;
+}
+.programacao-dia li:last-child { border-bottom: none; }
+.programacao-titulo { color: var(--grafite); }
+.programacao-horario { color: var(--cinza); font-weight: 600; white-space: nowrap; }
 
-.empty-row td { text-align: center; color: var(--cinza); padding: 26px; }
+/* Pontuação */
+.pontuacao-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+  margin-bottom: 20px;
+}
+.pontuacao-card {
+  background: var(--branco);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  border-bottom: 4px solid var(--vermelho);
+}
+.pontuacao-card h3 { margin: 0 0 16px; color: var(--verde-escuro); }
+.pontuacao-card p { color: var(--cinza); font-size: 0.9rem; margin: 12px 0 0; }
+.pontuacao-colocacoes { display: flex; gap: 10px; flex-wrap: wrap; }
+.pontuacao-item {
+  flex: 1;
+  min-width: 70px;
+  text-align: center;
+  background: var(--verde-suave);
+  border-radius: 10px;
+  padding: 12px 8px;
+}
+.pontuacao-item strong { display: block; font-size: 1.5rem; color: var(--verde-escuro); }
+.pontuacao-item span { font-size: 0.7rem; color: var(--cinza); }
+.pontuacao-destaque { font-size: 1.8rem; font-weight: 800; color: var(--vermelho); margin: 0 !important; }
 
 /* Regulamento */
 .regras-grid {
@@ -476,11 +531,13 @@ img { max-width: 100%; display: block; }
     padding: 16px 20px 26px;
     gap: 16px;
     max-height: 0;
+    min-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
+    visibility: hidden;
+    transition: max-height 0.3s ease, visibility 0s linear 0.3s;
   }
   .nav a { color: var(--branco); }
   .nav a:hover { color: var(--vermelho); }
-  .nav.open { max-height: 400px; }
+  .nav.open { max-height: 400px; visibility: visible; transition: max-height 0.3s ease, visibility 0s linear 0s; }
   .nav-cta { align-self: flex-start; }
 }

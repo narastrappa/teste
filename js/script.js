@@ -1,9 +1,6 @@
 (function () {
   "use strict";
 
-  const equipeById = Object.fromEntries(EQUIPES.map((e) => [e.id, e]));
-  const modalidadeById = Object.fromEntries(MODALIDADES.map((m) => [m.id, m]));
-
   /* ---------------- Menu mobile ---------------- */
   const navToggle = document.getElementById("navToggle");
   const navMenu = document.getElementById("navMenu");
@@ -18,199 +15,152 @@
     })
   );
 
-  /* ---------------- Contagem regressiva ---------------- */
+  /* ---------------- Contagem regressiva (em dias) ---------------- */
   function atualizarContagem() {
-    const agora = new Date();
-    let diff = DATA_INICIO_JIFAL - agora;
-    if (diff < 0) diff = 0;
-
-    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const min = Math.floor((diff / (1000 * 60)) % 60);
-    const seg = Math.floor((diff / 1000) % 60);
-
-    const pad = (n) => String(n).padStart(2, "0");
-    document.getElementById("cd-dias").textContent = pad(dias);
-    document.getElementById("cd-horas").textContent = pad(horas);
-    document.getElementById("cd-min").textContent = pad(min);
-    document.getElementById("cd-seg").textContent = pad(seg);
+    const hoje = new Date();
+    const inicio = new Date(EVENTO.dataInicio + "T00:00:00-03:00");
+    const umDia = 1000 * 60 * 60 * 24;
+    const diff = inicio.setHours(0, 0, 0, 0) - new Date(hoje).setHours(0, 0, 0, 0);
+    const dias = Math.max(0, Math.ceil(diff / umDia));
+    document.getElementById("cd-dias").textContent = String(dias);
   }
   atualizarContagem();
-  setInterval(atualizarContagem, 1000);
-
-  /* ---------------- Modalidades ---------------- */
-  function renderModalidades() {
-    const grid = document.getElementById("modalidadesGrid");
-    grid.innerHTML = MODALIDADES.map(
-      (m) => `
-      <div class="card">
-        <div class="card-icon">${m.icone}</div>
-        <h3>${m.nome}</h3>
-        <p>${m.info}</p>
-        <span class="tag">${m.tag}</span>
-      </div>`
-    ).join("");
-  }
 
   /* ---------------- Equipes ---------------- */
   function renderEquipes() {
     const grid = document.getElementById("equipesGrid");
     grid.innerHTML = EQUIPES.map(
       (e) => `
-      <div class="card equipe-card" style="--cor-equipe:${e.cor}">
-        <h3><span class="equipe-color-dot"></span>${e.nome}</h3>
-        <p>“${e.lema}”</p>
-        <p class="capitao">Capitão(ã): ${e.capitao}</p>
+      <article class="equipe-card" style="--cor-equipe:${e.hex}; --cor-equipe-escura:${e.hexEscuro}">
+        <header class="equipe-card-header">
+          <span class="equipe-card-tag">Equipe</span>
+          <span class="equipe-card-numero">${e.numero}</span>
+          <span class="equipe-card-cor">${e.cor.toUpperCase()}</span>
+        </header>
+        <div class="equipe-card-body">
+          <div class="equipe-card-turmas">
+            <h4>Turmas</h4>
+            <ul>
+              ${e.turmas.map((t) => `<li>${t}</li>`).join("")}
+            </ul>
+          </div>
+          <div class="equipe-card-info">
+            <div>
+              <span class="equipe-card-icon">🏅</span>
+              <div>
+                <small>Atleta Homenageada</small>
+                <strong>${e.homenageada}</strong>
+              </div>
+            </div>
+            <div>
+              <span class="equipe-card-icon">🐾</span>
+              <div>
+                <small>Mascote</small>
+                <strong>${e.mascote}</strong>
+              </div>
+            </div>
+            <div>
+              <span class="equipe-card-icon">🎨</span>
+              <div>
+                <small>Cor da Equipe</small>
+                <strong>${e.cor}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>`
+    ).join("");
+  }
+
+  /* ---------------- Modalidades esportivas ---------------- */
+  function renderModalidades() {
+    const grid = document.getElementById("modalidadesGrid");
+    grid.innerHTML = MODALIDADES_ESPORTIVAS.map(
+      (m) => `
+      <div class="card">
+        <div class="card-icon">${m.icone}</div>
+        <h3>${m.nome}</h3>
+        <p>${m.provas}</p>
+        ${m.provasDetalhe ? `<p class="card-detalhe">${m.provasDetalhe}</p>` : ""}
+        <p class="card-limite">${m.limite}</p>
+        <span class="tag">${m.tipo}</span>
       </div>`
     ).join("");
   }
 
-  /* ---------------- Tabela de jogos ---------------- */
-  const filtroModalidade = document.getElementById("filtroModalidade");
-  const filtroDia = document.getElementById("filtroDia");
-  const filtroStatus = document.getElementById("filtroStatus");
-  const tabelaJogosBody = document.querySelector("#tabelaJogos tbody");
-
-  function popularFiltros() {
-    MODALIDADES.forEach((m) => {
-      const opt = document.createElement("option");
-      opt.value = m.id;
-      opt.textContent = m.nome;
-      filtroModalidade.appendChild(opt);
-    });
-
-    const dias = [...new Set(JOGOS.map((j) => j.dia))];
-    dias.forEach((d) => {
-      const opt = document.createElement("option");
-      opt.value = d;
-      opt.textContent = d;
-      filtroDia.appendChild(opt);
-    });
+  /* ---------------- Provas artísticas ---------------- */
+  function renderArtisticas() {
+    const grid = document.getElementById("artisticasGrid");
+    grid.innerHTML = PROVAS_ARTISTICAS.map(
+      (p) => `
+      <div class="card">
+        <div class="card-icon">${p.icone}</div>
+        <h3>${p.nome}</h3>
+        <p>${p.descricao}</p>
+        <span class="tag">Obrigatória</span>
+      </div>`
+    ).join("");
+    document.getElementById("sancaoArtistica").textContent = "⚠️ " + SANCAO_PROVA_ARTISTICA;
   }
 
-  const statusLabel = {
-    agendado: "Agendado",
-    "ao-vivo": "Ao vivo",
-    encerrado: "Encerrado",
-  };
+  /* ---------------- Programação ---------------- */
+  function renderProgramacao() {
+    const grid = document.getElementById("programacaoGrid");
+    grid.innerHTML = PROGRAMACAO.map(
+      (dia) => `
+      <div class="programacao-dia">
+        <h3>${dia.dia}<span>${dia.data}</span></h3>
+        <ul>
+          ${dia.itens
+            .map(
+              (item) => `
+            <li>
+              <span class="programacao-titulo">${item.titulo}</span>
+              ${item.horario ? `<span class="programacao-horario">${item.horario}</span>` : ""}
+            </li>`
+            )
+            .join("")}
+        </ul>
+      </div>`
+    ).join("");
 
-  function renderJogos() {
-    const fm = filtroModalidade.value;
-    const fd = filtroDia.value;
-    const fs = filtroStatus.value;
-
-    const lista = JOGOS.filter(
-      (j) =>
-        (fm === "todas" || j.modalidade === fm) &&
-        (fd === "todos" || j.dia === fd) &&
-        (fs === "todos" || j.status === fs)
-    );
-
-    if (lista.length === 0) {
-      tabelaJogosBody.innerHTML = `<tr class="empty-row"><td colspan="7">Nenhum jogo encontrado para este filtro.</td></tr>`;
-      return;
-    }
-
-    tabelaJogosBody.innerHTML = lista
-      .map((j) => {
-        const mod = modalidadeById[j.modalidade];
-        const eqA = equipeById[j.timeA];
-        const eqB = equipeById[j.timeB];
-        return `
-        <tr>
-          <td>${j.data}</td>
-          <td>${j.hora}</td>
-          <td>${mod.icone} ${mod.nome}</td>
-          <td>${eqA.nome} <strong>x</strong> ${eqB.nome}</td>
-          <td>${j.local}</td>
-          <td>${j.placar}</td>
-          <td><span class="status-pill status-${j.status}">${statusLabel[j.status]}</span></td>
-        </tr>`;
-      })
-      .join("");
+    const tbody = document.querySelector("#tabelaDatas tbody");
+    tbody.innerHTML = DATAS_IMPORTANTES.map(
+      (d) => `<tr><td><strong>${d.data}</strong></td><td>${d.evento}</td></tr>`
+    ).join("");
   }
 
-  [filtroModalidade, filtroDia, filtroStatus].forEach((el) =>
-    el.addEventListener("change", renderJogos)
-  );
-
-  /* ---------------- Classificação por modalidade (tabs) ---------------- */
-  const tabsWrap = document.getElementById("resultadosTabs");
-  const tabelaClassBody = document.querySelector("#tabelaClassificacao tbody");
-  let modalidadeAtiva = MODALIDADES[0].id;
-
-  function renderTabs() {
-    tabsWrap.innerHTML = MODALIDADES.filter((m) => CLASSIFICACAO[m.id])
+  /* ---------------- Pontuação ---------------- */
+  function renderPontuacao() {
+    const grid = document.getElementById("pontuacaoEsportivaGrid");
+    grid.innerHTML = PONTUACAO.colocacoes
       .map(
-        (m) =>
-          `<button class="tab-btn${m.id === modalidadeAtiva ? " active" : ""}" data-mod="${m.id}" role="tab">${m.icone} ${m.nome}</button>`
+        (col, i) => `
+      <div class="pontuacao-item">
+        <strong>${PONTUACAO.esportiva[i]}</strong>
+        <span>${col}</span>
+      </div>`
       )
       .join("");
-
-    tabsWrap.querySelectorAll(".tab-btn").forEach((btn) =>
-      btn.addEventListener("click", () => {
-        modalidadeAtiva = btn.dataset.mod;
-        renderTabs();
-        renderClassificacao();
-      })
-    );
   }
 
-  function renderClassificacao() {
-    const lista = (CLASSIFICACAO[modalidadeAtiva] || [])
-      .slice()
-      .sort((a, b) => b.pts - a.pts);
-
-    if (lista.length === 0) {
-      tabelaClassBody.innerHTML = `<tr class="empty-row"><td colspan="7">Classificação ainda não disponível.</td></tr>`;
-      return;
-    }
-
-    tabelaClassBody.innerHTML = lista
-      .map((l, i) => {
-        const eq = equipeById[l.equipe];
-        return `
-        <tr>
-          <td class="${i === 0 ? "rank-1" : ""}">${i + 1}º</td>
-          <td><span class="equipe-color-dot" style="background:${eq.cor}"></span>${eq.nome}</td>
-          <td>${l.j}</td>
-          <td>${l.v}</td>
-          <td>${l.e}</td>
-          <td>${l.d}</td>
-          <td><strong>${l.pts}</strong></td>
-        </tr>`;
-      })
-      .join("");
-  }
-
-  /* ---------------- Quadro de medalhas ---------------- */
-  function renderMedalhas() {
-    const body = document.querySelector("#tabelaMedalhas tbody");
-    const lista = MEDALHAS.map((m) => ({ ...m, total: m.ouro + m.prata + m.bronze }))
-      .sort((a, b) => b.ouro - a.ouro || b.prata - a.prata || b.bronze - a.bronze);
-
-    body.innerHTML = lista
-      .map((m, i) => {
-        const eq = equipeById[m.equipe];
-        return `
-        <tr>
-          <td class="${i === 0 ? "rank-1" : ""}">${i + 1}º</td>
-          <td><span class="equipe-color-dot" style="background:${eq.cor}"></span>${eq.nome}</td>
-          <td>${m.ouro}</td>
-          <td>${m.prata}</td>
-          <td>${m.bronze}</td>
-          <td><strong>${m.total}</strong></td>
-        </tr>`;
-      })
-      .join("");
+  /* ---------------- Regulamento ---------------- */
+  function renderRegulamento() {
+    const grid = document.getElementById("regulamentoGrid");
+    grid.innerHTML = REGULAMENTO_RESUMO.map(
+      (r) => `
+      <div class="regra-card">
+        <h3>${r.titulo}</h3>
+        <p>${r.texto}</p>
+      </div>`
+    ).join("");
   }
 
   /* ---------------- Init ---------------- */
-  popularFiltros();
-  renderModalidades();
   renderEquipes();
-  renderJogos();
-  renderTabs();
-  renderClassificacao();
-  renderMedalhas();
+  renderModalidades();
+  renderArtisticas();
+  renderProgramacao();
+  renderPontuacao();
+  renderRegulamento();
 })();

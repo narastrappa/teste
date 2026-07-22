@@ -71,7 +71,7 @@ img { max-width: 100%; display: block; }
 .header-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 24px;
   height: 76px;
 }
 
@@ -79,17 +79,27 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   text-decoration: none;
+  margin-right: auto;
 }
 .brand-logo {
   height: 52px;
   width: auto;
   display: block;
+  flex-shrink: 0;
+}
+
+.ifbaiano-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
 }
 
 .nav {
   display: flex;
   align-items: center;
   gap: 26px;
+  flex-shrink: 0;
 }
 .nav a {
   color: var(--verde-escuro);
@@ -509,6 +519,14 @@ img { max-width: 100%; display: block; }
 .footer-info a { color: rgba(255,255,255,0.95); text-decoration: underline; }
 .footer-info a:hover { color: var(--vermelho); }
 .footer-info small { color: rgba(255,255,255,0.6); font-size: 0.78rem; }
+.footer-partner { display: flex; align-items: flex-start; justify-content: flex-end; }
+.footer-partner-card {
+  background: var(--branco);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: inline-flex;
+}
+.footer-partner-card img { height: 44px; width: auto; }
 .footer-copy {
   text-align: center;
   color: rgba(255,255,255,0.5);
@@ -521,7 +539,7 @@ img { max-width: 100%; display: block; }
   .about-grid { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 980px) {
   .nav-toggle { display: flex; }
   .nav {
     position: absolute;
@@ -543,4 +561,9 @@ img { max-width: 100%; display: block; }
   .nav a:hover { color: var(--vermelho); }
   .nav.open { max-height: 400px; visibility: visible; transition: max-height 0.3s ease, visibility 0s linear 0s; }
   .nav-cta { align-self: flex-start; }
+  .ifbaiano-logo { height: 30px; }
+}
+
+@media (max-width: 480px) {
+  .ifbaiano-logo { display: none; }
 }

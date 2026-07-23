@@ -1,10 +1,10 @@
 /* ===================================================================
    JIIFAL 2026 — Jogos Internos IF Baiano, Campus Alagoinhas.
-   Dados extraídos estritamente da Minuta do Regulamento Geral dos
-   Jogos Internos IF Baiano - Campus Alagoinhas (JIIFAL) e do card
-   oficial de apresentação das equipes.
-   A Comissão Organizadora pode editar estes dados conforme o
-   regulamento final for publicado (chaveado, horários, locais etc.).
+   Dados extraídos estritamente do Regulamento Geral dos Jogos
+   Internos IF Baiano - Campus Alagoinhas (JIIFAL), incluindo o
+   Anexo I (programação com horários, locais e coordenação), e do
+   card oficial de apresentação das equipes.
+   Regulamento completo: https://drive.google.com/file/d/1pKslurAk1IAv_rqbWv8p2YHTK9c-qJHv/view
 =================================================================== */
 
 const EVENTO = {
@@ -99,7 +99,7 @@ const MODALIDADES_ESPORTIVAS = [
     nome: "Atletismo",
     icone: "🏃",
     tipo: "Individual",
-    provas: "100 m, 200 m, 400 m, 800 m (masc. e fem.), 2.000 m (fem.) e 4.000 m (masc.)",
+    provas: "100 m, 200 m, 400 m e 800 m (masc. e fem.), 1.500 m (fem.) e 3.000 m (masc.)",
     limite: "Até 2 estudantes por equipe em cada prova; cada atleta pode disputar até 2 provas",
   },
   {
@@ -155,8 +155,8 @@ const MODALIDADES_ESPORTIVAS = [
     nome: "Futevôlei",
     icone: "🏐",
     tipo: "Individual",
-    provas: "Masculino e feminino",
-    limite: "Até 3 estudantes por equipe",
+    provas: "Masculino e misto",
+    limite: "2 titulares e até 1 reserva por equipe",
   },
   {
     nome: "Baleado",
@@ -211,35 +211,48 @@ const PONTUACAO = {
   observacao: "A pontuação esportiva vale para cada modalidade, por gênero e, no caso do atletismo, por prova. Equipes que não inscreverem atletas em uma modalidade não pontuam nela (Art. 19, Parágrafo Único).",
 };
 
-/* Anexo I — Programação (as tabelas de modalidade/local/horário do anexo estão em branco
-   no regulamento; serão preenchidas quando o chaveado for divulgado em 31/07/2026) */
+/* Anexo I — Programação oficial (horário, atividade, local e coordenação) */
 const PROGRAMACAO = [
   {
-    dia: "Terça-feira",
+    dia: "Quarta-feira",
     data: "05/08/2026",
     itens: [
-      { titulo: "Cerimônia de Abertura", horario: "" },
-      { titulo: "Prova/Apresentação de Abertura", horario: "" },
-      { titulo: "Modalidades esportivas", horario: "A divulgar no chaveado" },
-      { titulo: "Almoço", horario: "" },
+      { horario: "08h00 – 08h40", atividade: "Abertura dos Jogos", local: "Quadra", coordenacao: "Comissão Organizadora" },
+      { horario: "08h40 – 09h30", atividade: "Prova de Abertura", local: "Quadra", coordenacao: "Comissão Artística Cultural" },
+      { horario: "09h40 – 11h00", atividade: "Baleado", local: "Quadra", coordenacao: "Jamyle Rocha, Julio Cesar, Fabrício Faro" },
+      { horario: "10h00 – 12h00", atividade: "Xadrez", local: "Biblioteca", coordenacao: "Dante Bitencourt, Marcio Araujo, Mario Marcos" },
+      { horario: "11h00 – 12h00", atividade: "Salto em Distância", local: "Pista de Salto", coordenacao: "Fernando Marinho, Julio Cesar" },
+      { horario: "11h00 – 12h00", atividade: "Basquete 3x3", local: "Quadra", coordenacao: "Jonatas Vinicius, Marcio Borges" },
+      { horario: "11h00 – 12h00", atividade: "Vôlei de Areia", local: "Quadra de Areia", coordenacao: "Eberson Luis, Genivaldo Cruz" },
+      { horario: "12h00 – 13h00", atividade: "Almoço", local: "Refeitório", coordenacao: "—" },
+      { horario: "13h00 – 14h00", atividade: "Basquete 3x3", local: "Quadra", coordenacao: "Jonatas Vinicius, Marcio Borges" },
+      { horario: "13h00 – 15h00", atividade: "Vôlei de Areia", local: "Quadra de Areia", coordenacao: "Eberson Luis, Genivaldo Cruz" },
+      { horario: "14h00 – 16h00", atividade: "Tênis de Mesa", local: "Refeitório", coordenacao: "Dante Bitencourt, Gil Cesar, Mario Marcos" },
+      { horario: "14h00 – 16h30", atividade: "Videogame – FIFA", local: "Auditório", coordenacao: "Marcio Araujo, Jamyle Rocha, Fabrício Faro" },
+      { horario: "14h30 – 17h00", atividade: "Atletismo", local: "Estádio Carneirão", coordenacao: "Fernando Marinho, Julio Cesar, Marcos Santana" },
+      { horario: "15h30 – 17h00", atividade: "Futevôlei", local: "Quadra de Areia", coordenacao: "Eberson Luis, Genivaldo Cruz" },
     ],
+    observacao: "Transporte para os atletas do Atletismo com saída do campus às 14h00, com destino ao Estádio Carneirão.",
   },
   {
     dia: "Quinta-feira",
     data: "06/08/2026",
     itens: [
-      { titulo: "Modalidades esportivas", horario: "A divulgar no chaveado" },
-      { titulo: "Almoço", horario: "" },
+      { horario: "08h00 – 11h00", atividade: "Vôlei de Quadra", local: "Ginásio Municipal", coordenacao: "Marcos Santana, Eberson Luis" },
+      { horario: "11h00 – 12h00", atividade: "Futsal", local: "Ginásio Municipal", coordenacao: "Fernando Marinho, Marcos Santana" },
+      { horario: "12h00 – 13h00", atividade: "Almoço", local: "Refeitório", coordenacao: "—" },
+      { horario: "13h00 – 14h00", atividade: "Futsal", local: "Ginásio Municipal", coordenacao: "Fernando Marinho, Marcos Santana" },
+      { horario: "15h00 – 17h00", atividade: "Handebol", local: "Ginásio Municipal", coordenacao: "Jonatas Vinicius, Marcos Santana" },
     ],
   },
   {
     dia: "Sexta-feira",
     data: "07/08/2026",
     itens: [
-      { titulo: "Modalidades esportivas", horario: "A divulgar no chaveado" },
-      { titulo: "Almoço", horario: "" },
-      { titulo: "Show de Talentos", horario: "13h às 14h30" },
-      { titulo: "Cerimônia de Encerramento", horario: "14h30 às 15h30" },
+      { horario: "08h00 – 12h00", atividade: "Finais de Baleado, Handebol, Vôlei e Futsal", local: "Ginásio Municipal", coordenacao: "Fernando Marinho, Marcos Santana, Eberson Luis, Jonatas Vinicius" },
+      { horario: "12h00 – 13h00", atividade: "Almoço", local: "Refeitório", coordenacao: "—" },
+      { horario: "13h00 – 14h00", atividade: "Show de Talentos", local: "Auditório", coordenacao: "Comissão Artística Cultural" },
+      { horario: "14h00", atividade: "Cerimônia de Encerramento e Entrega de Medalhas", local: "Hall do Prédio Administrativo", coordenacao: "Comissão Organizadora" },
     ],
   },
 ];
@@ -252,7 +265,11 @@ const REGULAMENTO_RESUMO = [
   },
   {
     titulo: "Limite de inscrições por estudante",
-    texto: "Cada estudante pode se inscrever em, no máximo, duas modalidades coletivas e uma individual (ou duas individuais e uma coletiva), podendo disputar até 2 provas no atletismo (Art. 10, §1º).",
+    texto: "Cada estudante pode se inscrever em, no máximo, duas modalidades coletivas e uma individual (ou duas individuais e uma coletiva), podendo disputar até 2 provas no atletismo. Estudantes inscritas nas modalidades femininas ficam dispensadas dessa limitação (Art. 10, §1º).",
+  },
+  {
+    titulo: "Composição das equipes",
+    texto: "Nas modalidades coletivas (Baleado, Futsal, Voleibol de Quadra, Handebol, Vôlei de Areia e Basquete 3x3), estudantes na condição de Matrícula de Vínculo Institucional e egressos concluintes do 3º ano em 2025.2 não podem representar mais de 50% da equipe inscrita (Art. 15, §3º).",
   },
   {
     titulo: "Formato das disputas",

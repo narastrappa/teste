@@ -402,40 +402,15 @@ img { max-width: 100%; display: block; }
 .card-limite { color: var(--verde-escuro); font-size: 0.85rem; font-weight: 600; margin-top: 8px !important; }
 
 /* Programação */
-.programacao-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 22px;
-  margin-bottom: 40px;
-}
-.programacao-dia {
-  background: var(--branco);
-  border-radius: var(--radius);
-  padding: 22px;
-  box-shadow: var(--shadow-sm);
-  border-top: 4px solid var(--verde);
-}
+.programacao-dia { margin-bottom: 36px; }
+.programacao-dia:last-child { margin-bottom: 0; }
 .programacao-dia h3 {
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   color: var(--verde-escuro);
-  font-size: 1.05rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  font-size: 1.15rem;
 }
-.programacao-dia h3 span { font-size: 0.8rem; color: var(--vermelho); font-weight: 700; }
-.programacao-dia ul { list-style: none; margin: 0; padding: 0; }
-.programacao-dia li {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--verde-suave);
-  font-size: 0.9rem;
-}
-.programacao-dia li:last-child { border-bottom: none; }
-.programacao-titulo { color: var(--grafite); }
-.programacao-horario { color: var(--cinza); font-weight: 600; white-space: nowrap; }
+.programacao-dia h3 span { font-size: 0.85rem; color: var(--vermelho); font-weight: 700; margin-left: 8px; }
+.programacao-obs { margin: 10px 2px 0; color: var(--cinza); font-size: 0.85rem; font-style: italic; }
 
 /* Pontuação */
 .pontuacao-grid {

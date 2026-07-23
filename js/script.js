@@ -105,22 +105,37 @@
 
   /* ---------------- Programação ---------------- */
   function renderProgramacao() {
-    const grid = document.getElementById("programacaoGrid");
-    grid.innerHTML = PROGRAMACAO.map(
+    const wrap = document.getElementById("programacaoDias");
+    wrap.innerHTML = PROGRAMACAO.map(
       (dia) => `
       <div class="programacao-dia">
-        <h3>${dia.dia}<span>${dia.data}</span></h3>
-        <ul>
-          ${dia.itens
-            .map(
-              (item) => `
-            <li>
-              <span class="programacao-titulo">${item.titulo}</span>
-              ${item.horario ? `<span class="programacao-horario">${item.horario}</span>` : ""}
-            </li>`
-            )
-            .join("")}
-        </ul>
+        <h3>${dia.dia} <span>${dia.data}</span></h3>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Horário</th>
+                <th>Atividade</th>
+                <th>Local</th>
+                <th>Coordenação</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${dia.itens
+                .map(
+                  (item) => `
+                <tr>
+                  <td>${item.horario}</td>
+                  <td>${item.atividade}</td>
+                  <td>${item.local}</td>
+                  <td>${item.coordenacao}</td>
+                </tr>`
+                )
+                .join("")}
+            </tbody>
+          </table>
+        </div>
+        ${dia.observacao ? `<p class="programacao-obs">📌 ${dia.observacao}</p>` : ""}
       </div>`
     ).join("");
 

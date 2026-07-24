@@ -16,6 +16,7 @@ const EVENTO = {
   dataInicioExtenso: "05 de agosto de 2026",
   dataFimExtenso: "07 de agosto de 2026",
   locais: [
+    "Campus Alagoinhas",
     "Ginásio Poliesportivo Educacional de Alagoinhas",
     "Estádio Antônio de Figueiredo Carneiro (Carneirão)",
   ],
@@ -40,6 +41,8 @@ const EQUIPES = [
     cor: "Azul",
     hex: "#1958c9",
     hexEscuro: "#123f94",
+    torcida: "Hortência",
+    instagram: "https://www.instagram.com/equipehortencia?igsh=ODkydWNiNXZrZ2Rx",
     turmas: [
       "1º B Agroindústria",
       "1º B Agroecologia",
@@ -55,6 +58,8 @@ const EQUIPES = [
     cor: "Amarela",
     hex: "#f0b90b",
     hexEscuro: "#c99502",
+    torcida: "Império",
+    instagram: "https://www.instagram.com/imperio.jifal?igsh=Z3k3cWdmY3Y2d29q",
     turmas: [
       "1º Informática",
       "2º B Agroecologia",
@@ -70,6 +75,8 @@ const EQUIPES = [
     cor: "Vermelha",
     hex: "#d1222e",
     hexEscuro: "#9c0f1a",
+    torcida: "Fuleco",
+    instagram: "https://www.instagram.com/fuleco.jifal/?utm_source=ig_web_button_share_sheet",
     turmas: [
       "2º A Agroecologia",
       "3º A Agroindústria",
@@ -85,12 +92,23 @@ const EQUIPES = [
     cor: "Laranja",
     hex: "#ea7c14",
     hexEscuro: "#b95c08",
+    torcida: "Guardiã",
+    instagram: "https://www.instagram.com/guardia.jifal?igsh=ZHpiZm05YjJheWR4",
     turmas: [
       "1º A Agroecologia",
       "2º B Agroindústria",
       "3º A Agroecologia",
     ],
   },
+];
+
+/* Classificação Geral — preenchida manualmente pela Comissão Organizadora
+   conforme os resultados forem divulgados durante o JIIFAL */
+const CLASSIFICACAO_GERAL = [
+  { equipeId: "equipe-1", pontos: 0 },
+  { equipeId: "equipe-2", pontos: 0 },
+  { equipeId: "equipe-3", pontos: 0 },
+  { equipeId: "equipe-4", pontos: 0 },
 ];
 
 /* Art. 15 — modalidades esportivas coletivas e individuais */

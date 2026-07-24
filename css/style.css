@@ -365,6 +365,29 @@ img { max-width: 100%; display: block; }
 .equipe-card-icon { font-size: 1.3rem; }
 .equipe-card-info small { display: block; font-size: 0.72rem; color: var(--cinza); text-transform: uppercase; letter-spacing: 0.5px; }
 .equipe-card-info strong { color: var(--verde-escuro); font-size: 1rem; }
+.equipe-card-instagram {
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--cor-equipe);
+  color: var(--branco);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: filter 0.2s;
+}
+.equipe-card-instagram:hover { filter: brightness(0.9); }
+
+.equipe-color-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
 
 /* Tables */
 .table-scroll {

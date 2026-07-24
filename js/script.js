@@ -1,6 +1,8 @@
 (function () {
   "use strict";
 
+  const equipeById = Object.fromEntries(EQUIPES.map((e) => [e.id, e]));
+
   /* ---------------- Menu mobile ---------------- */
   const navToggle = document.getElementById("navToggle");
   const navMenu = document.getElementById("navMenu");
@@ -67,6 +69,9 @@
               </div>
             </div>
           </div>
+          <a class="equipe-card-instagram" href="${e.instagram}" target="_blank" rel="noopener">
+            📷 Torcida ${e.torcida} no Instagram
+          </a>
         </div>
       </article>`
     ).join("");
@@ -145,6 +150,23 @@
     ).join("");
   }
 
+  /* ---------------- Classificação Geral ---------------- */
+  function renderClassificacaoGeral() {
+    const tbody = document.querySelector("#tabelaClassificacaoGeral tbody");
+    const ordenada = CLASSIFICACAO_GERAL.slice().sort((a, b) => b.pontos - a.pontos);
+    tbody.innerHTML = ordenada
+      .map((c, i) => {
+        const e = equipeById[c.equipeId];
+        return `
+        <tr>
+          <td>${i + 1}º</td>
+          <td><span class="equipe-color-dot" style="background:${e.hex}"></span>Equipe ${e.numero} — ${e.torcida} (${e.cor})</td>
+          <td><strong>${c.pontos}</strong></td>
+        </tr>`;
+      })
+      .join("");
+  }
+
   /* ---------------- Pontuação ---------------- */
   function renderPontuacao() {
     const grid = document.getElementById("pontuacaoEsportivaGrid");
@@ -176,6 +198,7 @@
   renderModalidades();
   renderArtisticas();
   renderProgramacao();
+  renderClassificacaoGeral();
   renderPontuacao();
   renderRegulamento();
 })();

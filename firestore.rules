@@ -1,0 +1,43 @@
+/* ===================================================================
+   Regras de segurança do Firestore — JIIFAL 2026
+
+   Como aplicar:
+   1. Console do Firebase > Firestore Database > aba "Regras".
+   2. Cole todo o conteúdo deste arquivo, substituindo o que já estiver lá.
+   3. Clique em "Publicar".
+
+   O que estas regras garantem:
+   - Qualquer visitante do site pode LER os resultados dos jogos e as
+     colocações (para a Classificação Geral aparecer para todo mundo).
+   - Só o e-mail abaixo (autenticado via Google) pode ESCREVER
+     (criar/editar) esses documentos. É esta regra — não o JavaScript
+     do site — quem realmente impede outras pessoas de lançar
+     resultados falsos.
+   - Se for adicionar mais administradores no futuro, inclua o e-mail
+     na lista `emailsAdmin`.
+=================================================================== */
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function emailsAdmin() {
+      return ["narastrappa@gmail.com"];
+    }
+
+    function ehAdmin() {
+      return request.auth != null && request.auth.token.email in emailsAdmin();
+    }
+
+    match /jogos/{documento} {
+      allow read: if true;
+      allow write: if ehAdmin();
+    }
+
+    match /colocacoes/{documento} {
+      allow read: if true;
+      allow write: if ehAdmin();
+    }
+  }
+}

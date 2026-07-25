@@ -27,6 +27,7 @@
       <a href="#equipes">Equipes</a>
       <a href="#modalidades">Modalidades</a>
       <a href="#programacao">Programação</a>
+      <a href="#resultados">Resultados</a>
       <a href="#pontuacao">Pontuação</a>
       <a href="#regulamento">Regulamento</a>
       <a href="#contato" class="nav-cta">Contato</a>
@@ -154,14 +155,97 @@
     </div>
   </section>
 
-  <!-- PONTUAÇÃO -->
-  <section id="pontuacao" class="section">
+  <!-- RESULTADOS -->
+  <section id="resultados" class="section section-alt">
     <div class="container">
-      <h2 class="section-title">Quadro de Pontos</h2>
-      <p class="section-sub">A equipe campeã é definida pela soma dos pontos conquistados em cada modalidade, por gênero e prova (Art. 19 e 20 do Regulamento Geral).</p>
+      <h2 class="section-title">Resultados</h2>
+      <p class="section-sub">Acompanhe os resultados de cada jogo e a classificação geral, atualizados pela Comissão Organizadora durante o JIIFAL.</p>
+
+      <div class="auth-widget" id="authArea">
+        <p class="auth-aviso">Carregando login…</p>
+      </div>
+
+      <div class="admin-only admin-forms" style="display:none">
+        <h3 class="subtitle">🔒 Lançar resultado de um jogo</h3>
+        <form id="formJogo" class="admin-form">
+          <div class="admin-form-row">
+            <label>Data
+              <input type="text" name="data" placeholder="Ex.: 05/08" required>
+            </label>
+            <label>Modalidade
+              <input type="text" name="modalidade" placeholder="Ex.: Futsal" required>
+            </label>
+            <label>Gênero
+              <select name="genero">
+                <option>Masculino</option>
+                <option>Feminino</option>
+                <option>Misto</option>
+              </select>
+            </label>
+          </div>
+          <div class="admin-form-row">
+            <label>Confronto
+              <input type="text" name="confronto" placeholder="Ex.: Equipe 1 x Equipe 3" required>
+            </label>
+            <label>Placar
+              <input type="text" name="placar" placeholder="Ex.: 3 x 1" required>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary-sm">Publicar resultado</button>
+        </form>
+
+        <h3 class="subtitle">🔒 Registrar colocação — modalidade esportiva</h3>
+        <p class="section-sub">A pontuação (5 / 3 / 2 / 1) é aplicada automaticamente conforme o Art. 20 do Regulamento Geral.</p>
+        <form id="formColocacaoEsportiva" class="admin-form">
+          <div class="admin-form-row">
+            <label>Modalidade
+              <select name="modalidade" id="selectModalidadeColocacao" required></select>
+            </label>
+            <label>Gênero
+              <select name="genero" required>
+                <option>Masculino</option>
+                <option>Feminino</option>
+              </select>
+            </label>
+          </div>
+          <div class="admin-form-row" id="colocacaoEquipes"><!-- JS --></div>
+          <button type="submit" class="btn btn-primary-sm">Salvar colocação</button>
+        </form>
+
+        <h3 class="subtitle">🔒 Registrar notas — prova artística</h3>
+        <p class="section-sub">Até 10 pontos por equipe, conforme a nota atribuída pela Comissão Cultural e Artística.</p>
+        <form id="formColocacaoArtistica" class="admin-form">
+          <label>Prova
+            <select name="prova" required>
+              <option value="Prova de Abertura">Prova de Abertura</option>
+              <option value="Show de Talentos">Show de Talentos</option>
+              <option value="Instagram da Equipe">Instagram da Equipe</option>
+            </select>
+          </label>
+          <div class="admin-form-row" id="notasEquipes"><!-- JS --></div>
+          <button type="submit" class="btn btn-primary-sm">Salvar notas</button>
+        </form>
+      </div>
+
+      <h3 class="subtitle">Resultados dos Jogos</h3>
+      <div class="table-scroll">
+        <table class="table" id="tabelaResultadosJogos">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Modalidade</th>
+              <th>Gênero</th>
+              <th>Confronto</th>
+              <th>Placar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="5">Carregando…</td></tr>
+          </tbody>
+        </table>
+      </div>
 
       <h3 class="subtitle">Classificação Geral</h3>
-      <p class="section-sub">Atualizada pela Comissão Organizadora conforme os resultados forem divulgados durante o JIIFAL.</p>
       <div class="table-scroll">
         <table class="table" id="tabelaClassificacaoGeral">
           <thead>
@@ -171,9 +255,19 @@
               <th>Pontos</th>
             </tr>
           </thead>
-          <tbody><!-- JS --></tbody>
+          <tbody>
+            <tr><td colspan="3">Carregando…</td></tr>
+          </tbody>
         </table>
       </div>
+    </div>
+  </section>
+
+  <!-- PONTUAÇÃO -->
+  <section id="pontuacao" class="section">
+    <div class="container">
+      <h2 class="section-title">Quadro de Pontos</h2>
+      <p class="section-sub">A equipe campeã é definida pela soma dos pontos conquistados em cada modalidade, por gênero e prova (Art. 19 e 20 do Regulamento Geral).</p>
 
       <h3 class="subtitle">Como funciona a pontuação</h3>
       <div class="pontuacao-grid">
@@ -237,5 +331,6 @@
 
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
+<script type="module" src="js/firebase-app.js"></script>
 </body>
 </html>

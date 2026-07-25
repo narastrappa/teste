@@ -229,6 +229,75 @@ img { max-width: 100%; display: block; }
 .btn-ghost { border-color: rgba(255,255,255,0.6); color: var(--branco); }
 .btn-ghost:hover { background: rgba(255,255,255,0.12); }
 
+button.btn { cursor: pointer; font-family: inherit; font-size: 0.95rem; }
+.btn-primary-sm,
+.btn-ghost-sm {
+  display: inline-block;
+  padding: 9px 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: filter 0.2s, background 0.2s;
+}
+.btn-primary-sm { background: var(--vermelho); color: var(--branco); }
+.btn-primary-sm:hover { background: var(--vermelho-escuro); }
+.btn-ghost-sm { background: transparent; border-color: var(--cinza-claro); color: var(--verde-escuro); }
+.btn-ghost-sm:hover { background: var(--verde-suave); }
+
+/* Autenticação (login com Google) */
+.auth-widget {
+  background: var(--branco);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 30px;
+}
+.auth-logado { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.auth-avatar { width: 36px; height: 36px; border-radius: 50%; }
+.auth-aviso { margin: 0; color: var(--cinza); font-size: 0.9rem; }
+
+/* Formulários de administração (visíveis só para o admin logado) */
+.admin-forms {
+  background: var(--branco);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 30px;
+  border-left: 4px solid var(--vermelho);
+}
+.admin-form { margin-bottom: 24px; }
+.admin-form:last-child { margin-bottom: 0; }
+.admin-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.admin-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--verde-escuro);
+  flex: 1;
+  min-width: 160px;
+}
+.admin-form input,
+.admin-form select {
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--cinza-claro);
+  background: var(--off-white);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--grafite);
+}
+
 /* ---------- Sections ---------- */
 .section { padding: 72px 0; }
 .section-alt { background: var(--verde-suave); }

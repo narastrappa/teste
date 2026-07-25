@@ -2,6 +2,7 @@
   "use strict";
 
   const equipeById = Object.fromEntries(EQUIPES.map((e) => [e.id, e]));
+  window.equipeById = equipeById;
 
   /* ---------------- Menu mobile ---------------- */
   const navToggle = document.getElementById("navToggle");
@@ -150,22 +151,9 @@
     ).join("");
   }
 
-  /* ---------------- Classificação Geral ---------------- */
-  function renderClassificacaoGeral() {
-    const tbody = document.querySelector("#tabelaClassificacaoGeral tbody");
-    const ordenada = CLASSIFICACAO_GERAL.slice().sort((a, b) => b.pontos - a.pontos);
-    tbody.innerHTML = ordenada
-      .map((c, i) => {
-        const e = equipeById[c.equipeId];
-        return `
-        <tr>
-          <td>${i + 1}º</td>
-          <td><span class="equipe-color-dot" style="background:${e.hex}"></span>Equipe ${e.numero} — ${e.torcida} (${e.cor})</td>
-          <td><strong>${c.pontos}</strong></td>
-        </tr>`;
-      })
-      .join("");
-  }
+  /* A Classificação Geral (com base nos resultados reais) e os resultados
+     dos jogos são renderizados por js/firebase-app.js, que lê e escreve no
+     Firestore em tempo real. */
 
   /* ---------------- Pontuação ---------------- */
   function renderPontuacao() {
@@ -198,7 +186,6 @@
   renderModalidades();
   renderArtisticas();
   renderProgramacao();
-  renderClassificacaoGeral();
   renderPontuacao();
   renderRegulamento();
 })();

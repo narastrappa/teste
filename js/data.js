@@ -102,14 +102,10 @@ const EQUIPES = [
   },
 ];
 
-/* Classificação Geral — preenchida manualmente pela Comissão Organizadora
-   conforme os resultados forem divulgados durante o JIIFAL */
-const CLASSIFICACAO_GERAL = [
-  { equipeId: "equipe-1", pontos: 0 },
-  { equipeId: "equipe-2", pontos: 0 },
-  { equipeId: "equipe-3", pontos: 0 },
-  { equipeId: "equipe-4", pontos: 0 },
-];
+/* A Classificação Geral e os resultados dos jogos deixaram de ser um array
+   estático: agora são preenchidos pelo(a) administrador(a) logado(a) (ver
+   js/firebase-app.js) e ficam salvos no Firestore, visíveis a todos os
+   visitantes do site em tempo real. */
 
 /* Art. 15 — modalidades esportivas coletivas e individuais */
 const MODALIDADES_ESPORTIVAS = [
@@ -306,3 +302,10 @@ const REGULAMENTO_RESUMO = [
     texto: "Casos de indisciplina, agressão ou condutas antidesportivas são julgados pela Comissão Disciplinar. Recursos devem ser protocolados por escrito pela madrinha da equipe junto à CAE em até 1 dia após o fato (Art. 21 a 32).",
   },
 ];
+
+/* Exposição global para o módulo js/firebase-app.js (que roda como ES module
+   e não compartilha automaticamente as constantes deste script clássico). */
+window.EQUIPES = EQUIPES;
+window.MODALIDADES_ESPORTIVAS = MODALIDADES_ESPORTIVAS;
+window.PROVAS_ARTISTICAS = PROVAS_ARTISTICAS;
+window.PONTUACAO = PONTUACAO;

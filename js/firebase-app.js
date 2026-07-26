@@ -13,7 +13,7 @@
    (firestore.rules), não esta tela.
 =================================================================== */
 
-import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js";
+import { firebaseConfig, ADMIN_EMAILS } from "./firebase-config.js";
 
 const authArea = document.getElementById("authArea");
 const adminBlocks = document.querySelectorAll(".admin-only");
@@ -108,7 +108,7 @@ async function iniciarFirebase() {
   let admin = false;
 
   function renderAuthUI(user) {
-    admin = !!user && user.email === ADMIN_EMAIL;
+    admin = !!user && ADMIN_EMAILS.includes(user.email);
 
     if (user) {
       authArea.innerHTML = `

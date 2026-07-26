@@ -29,9 +29,11 @@ export const firebaseConfig = {
   measurementId: "G-HTZ5GH9JV9",
 };
 
-/* E-mail com permissão para lançar resultados após o login com Google.
-   Este mesmo e-mail também deve ser colado nas regras de segurança do
-   Firestore (arquivo firestore.rules) — o controle real de quem pode
-   GRAVAR dados é feito lá, não aqui. Este valor só controla o que a
-   interface mostra/esconde no navegador. */
-export const ADMIN_EMAIL = "narastrappa@gmail.com";
+/* E-mails com permissão para lançar resultados após o login com Google.
+   Estes mesmos e-mails também devem estar na lista `emailsAdmin()` das
+   regras de segurança do Firestore (arquivo firestore.rules, já publicadas
+   no console) — o controle real de quem pode GRAVAR dados é feito lá, não
+   aqui. Esta lista só controla o que a interface mostra/esconde no
+   navegador. Para adicionar mais administradores(as), inclua o e-mail
+   nas duas listas (aqui e nas regras do Firestore). */
+export const ADMIN_EMAILS = ["narastrappa@gmail.com", "prof.edf.eduardo@gmail.com"];

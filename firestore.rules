@@ -23,7 +23,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function emailsAdmin() {
-      return ["narastrappa@gmail.com"];
+      return ["narastrappa@gmail.com", "prof.edf.eduardo@gmail.com"];
     }
 
     function ehAdmin() {

@@ -20,12 +20,13 @@
 =================================================================== */
 
 export const firebaseConfig = {
-  apiKey: "SUBSTITUA_API_KEY",
-  authDomain: "SUBSTITUA_PROJETO.firebaseapp.com",
-  projectId: "SUBSTITUA_PROJETO_ID",
-  storageBucket: "SUBSTITUA_PROJETO.appspot.com",
-  messagingSenderId: "SUBSTITUA_SENDER_ID",
-  appId: "SUBSTITUA_APP_ID",
+  apiKey: "AIzaSyCtsyvh7f0BKlCVofnZ_3EFl3N8T12pJBY",
+  authDomain: "jiifal-alagoinhas.firebaseapp.com",
+  projectId: "jiifal-alagoinhas",
+  storageBucket: "jiifal-alagoinhas.firebasestorage.app",
+  messagingSenderId: "155110517172",
+  appId: "1:155110517172:web:2d0790146f39951b53aae1",
+  measurementId: "G-HTZ5GH9JV9",
 };
 
 /* E-mail com permissão para lançar resultados após o login com Google.

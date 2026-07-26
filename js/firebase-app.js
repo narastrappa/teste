@@ -79,7 +79,7 @@ if (!CONFIGURADO) {
 
 async function iniciarFirebase() {
   const { initializeApp } = await import(
-    "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"
+    "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js"
   );
   const {
     getAuth,
@@ -87,7 +87,7 @@ async function iniciarFirebase() {
     signInWithPopup,
     signOut,
     onAuthStateChanged,
-  } = await import("https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js");
+  } = await import("https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js");
   const {
     getFirestore,
     collection,
@@ -98,7 +98,7 @@ async function iniciarFirebase() {
     query,
     orderBy,
     serverTimestamp,
-  } = await import("https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js");
+  } = await import("https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js");
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);

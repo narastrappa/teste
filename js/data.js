@@ -271,6 +271,210 @@ const PROGRAMACAO = [
   },
 ];
 
+/* Chaveado oficial das modalidades esportivas coletivas (Tabela Modalidades
+   Esportivas — JIIFAL 2026). Times identificados por id de equipe; quando o
+   confronto ainda depende de um resultado anterior, o valor é um texto
+   (ex.: "Perdedor SF1", "Vencedor SF1"). */
+const CHAVEADO = [
+  {
+    modalidade: "Baleado Feminino",
+    local: "Quadra IF",
+    data: "05/08",
+    fases: [
+      { fase: "Semifinal 1", horario: "09h20 – 09h40", timeA: "equipe-1", timeB: "equipe-4" },
+      { fase: "Semifinal 2", horario: "10h00 – 10h20", timeA: "equipe-2", timeB: "equipe-3" },
+      { fase: "Disputa de 3º Lugar", horario: "10h40 – 11h00", timeA: "Perdedor SF1", timeB: "Perdedor SF2" },
+      { fase: "Final", horario: "09h20 – 09h40 (07/08 · Ginásio Municipal)", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+  {
+    modalidade: "Baleado Masculino",
+    local: "Quadra IF",
+    data: "05/08",
+    fases: [
+      { fase: "Semifinal 1", horario: "09h40 – 10h00", timeA: "equipe-2", timeB: "equipe-1" },
+      { fase: "Semifinal 2", horario: "10h20 – 10h40", timeA: "equipe-3", timeB: "equipe-4" },
+      { fase: "Disputa de 3º Lugar", horario: "11h00 – 11h20", timeA: "Perdedor SF1", timeB: "Perdedor SF2" },
+      { fase: "Final", horario: "09h20 – 09h40 (07/08 · Ginásio Municipal)", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+  {
+    modalidade: "Basquete 3x3 Masculino",
+    local: "Quadra IF",
+    data: "05/08",
+    fases: [
+      { fase: "Semifinal 1", horario: "11h20 – 11h40", timeA: "equipe-3", timeB: "equipe-1" },
+      { fase: "Semifinal 2", horario: "13h00 – 13h20", timeA: "equipe-4", timeB: "equipe-2" },
+      { fase: "Disputa de 3º Lugar", horario: "13h40 – 14h00", timeA: "Perdedor SF1", timeB: "Perdedor SF2" },
+      { fase: "Final", horario: "14h20 – 14h40", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+  {
+    modalidade: "Basquete 3x3 Feminino",
+    local: "Quadra IF",
+    data: "05/08",
+    observacao: "Formato de rodízio entre as equipes participantes, conforme tabela oficial (sem semifinal/final).",
+    fases: [
+      { fase: "1ª Rodada", horario: "11h40 – 12h00", timeA: "equipe-1", timeB: "equipe-2" },
+      { fase: "2ª Rodada", horario: "13h20 – 13h40", timeA: "equipe-2", timeB: "equipe-4" },
+      { fase: "3ª Rodada", horario: "14h00 – 14h20", timeA: "equipe-1", timeB: "equipe-4" },
+    ],
+  },
+  {
+    modalidade: "Vôlei de Areia Feminino",
+    local: "Quadra de Areia IF",
+    data: "05/08",
+    observacao: "Não haverá disputa de 3º lugar. O 3º colocado será a equipe derrotada pelo campeão na semifinal.",
+    fases: [
+      { fase: "Semifinal 1", horario: "11h00 – 11h30", timeA: "equipe-1", timeB: "equipe-3" },
+      { fase: "Semifinal 2", horario: "11h30 – 12h00", timeA: "equipe-4", timeB: "equipe-2" },
+      { fase: "Final", horario: "14h00 – 14h30", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+  {
+    modalidade: "Vôlei de Areia Masculino",
+    local: "Quadra de Areia IF",
+    data: "05/08",
+    observacao: "Não haverá disputa de 3º lugar. O 3º colocado será a equipe derrotada pelo campeão na semifinal.",
+    fases: [
+      { fase: "Semifinal 1", horario: "13h00 – 13h30", timeA: "equipe-1", timeB: "equipe-4" },
+      { fase: "Semifinal 2", horario: "13h30 – 14h00", timeA: "equipe-3", timeB: "equipe-2" },
+      { fase: "Final", horario: "14h30 – 15h00", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+  {
+    modalidade: "Futevôlei Masculino",
+    local: "Quadra de Areia IF",
+    data: "05/08",
+    observacao: "Não haverá disputa de 3º lugar. O 3º colocado será a equipe derrotada pelo campeão na semifinal.",
+    fases: [
+      { fase: "Semifinal 1", horario: "15h00 – 15h30", timeA: "equipe-2", timeB: "equipe-4" },
+      { fase: "Semifinal 2", horario: "15h30 – 16h00", timeA: "equipe-1", timeB: "equipe-3" },
+      { fase: "Final", horario: "16h20 – 16h50", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+  {
+    modalidade: "Vôlei de Quadra Feminino",
+    local: "Ginásio Municipal",
+    data: "06/08",
+    fases: [
+      { fase: "Semifinal 1", horario: "08h00 – 08h30", timeA: "equipe-2", timeB: "equipe-3" },
+      { fase: "Semifinal 2", horario: "08h30 – 09h00", timeA: "equipe-1", timeB: "equipe-4" },
+      { fase: "Disputa de 3º Lugar", horario: "10h00 – 10h30", timeA: "Perdedor SF1", timeB: "Perdedor SF2" },
+      { fase: "Final", horario: "08h00 – 08h30 (07/08 · Ginásio Municipal)", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+  {
+    modalidade: "Vôlei de Quadra Masculino",
+    local: "Ginásio Municipal",
+    data: "06/08",
+    fases: [
+      { fase: "Semifinal 1", horario: "09h00 – 09h30", timeA: "equipe-3", timeB: "equipe-4" },
+      { fase: "Semifinal 2", horario: "09h00 – 10h00", timeA: "equipe-2", timeB: "equipe-1" },
+      { fase: "Disputa de 3º Lugar", horario: "10h30 – 11h00", timeA: "Perdedor SF1", timeB: "Perdedor SF2" },
+      { fase: "Final", horario: "08h30 – 08h00 (07/08 · Ginásio Municipal, conforme tabela oficial)", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+  {
+    modalidade: "Futsal Feminino",
+    local: "Ginásio Municipal",
+    data: "06/08",
+    fases: [
+      { fase: "Semifinal 1", horario: "11h10 – 11h35", timeA: "equipe-3", timeB: "equipe-2" },
+      { fase: "Semifinal 2", horario: "13h00 – 13h25", timeA: "equipe-4", timeB: "equipe-1" },
+      { fase: "Disputa de 3º Lugar", horario: "13h50 – 14h15", timeA: "Perdedor SF1", timeB: "Perdedor SF2" },
+      { fase: "Final", horario: "11h30 – 12h00 (07/08 · Ginásio Municipal)", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+  {
+    modalidade: "Futsal Masculino",
+    local: "Ginásio Municipal",
+    data: "06/08",
+    fases: [
+      { fase: "Semifinal 1", horario: "11h35 – 12h00", timeA: "equipe-4", timeB: "equipe-3" },
+      { fase: "Semifinal 2", horario: "13h25 – 13h50", timeA: "equipe-1", timeB: "equipe-2" },
+      { fase: "Disputa de 3º Lugar", horario: "14h15 – 14h40", timeA: "Perdedor SF1", timeB: "Perdedor SF2" },
+      { fase: "Final", horario: "A definir (07/08 · Ginásio Municipal, início previsto 11h00)", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+  {
+    modalidade: "Handebol Feminino",
+    local: "Ginásio Municipal",
+    data: "06/08",
+    fases: [
+      { fase: "Semifinal 1", horario: "14h20 – 14h45", timeA: "equipe-4", timeB: "equipe-1" },
+      { fase: "Semifinal 2", horario: "15h10 – 15h35", timeA: "equipe-2", timeB: "equipe-3" },
+      { fase: "Disputa de 3º Lugar", horario: "16h00 – 16h25", timeA: "Perdedor SF1", timeB: "Perdedor SF2" },
+      { fase: "Final", horario: "09h40 – 10h10 (07/08 · Ginásio Municipal)", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+  {
+    modalidade: "Handebol Masculino",
+    local: "Ginásio Municipal",
+    data: "06/08",
+    fases: [
+      { fase: "Semifinal 1", horario: "14h45 – 15h10", timeA: "equipe-1", timeB: "equipe-2" },
+      { fase: "Semifinal 2", horario: "15h35 – 16h00", timeA: "equipe-3", timeB: "equipe-4" },
+      { fase: "Disputa de 3º Lugar", horario: "16h25 – 16h50", timeA: "Perdedor SF1", timeB: "Perdedor SF2" },
+      { fase: "Final", horario: "10h10 – 10h40 (07/08 · Ginásio Municipal)", timeA: "Vencedor SF1", timeB: "Vencedor SF2" },
+    ],
+  },
+];
+
+/* Chaveado oficial das modalidades individuais (Xadrez, Tênis de Mesa,
+   Videogame FIFA) — disputadas dentro de cada equipe e depois entre equipes,
+   conforme os pôsteres de chaveamento oficiais. */
+const CHAVEADO_INDIVIDUAL = [
+  {
+    modalidade: "Xadrez Masculino",
+    local: "Biblioteca",
+    data: "05/08",
+    inicio: "10h00",
+    formato:
+      "Cada equipe inscreve 2 atletas, que se enfrentam entre si na fase interna. Semifinal 1: vencedor da Equipe Azul (Hortência) × vencedor da Equipe Amarela (Império). Semifinal 2: vencedor da Equipe Laranja (Guardiã) × vencedor da Equipe Vermelha (Fuleco). Os vencedores das semifinais disputam a final.",
+  },
+  {
+    modalidade: "Xadrez Feminino",
+    local: "Biblioteca",
+    data: "05/08",
+    inicio: "10h00",
+    formato:
+      "Cada equipe pode inscrever até 2 jogadoras. Na Equipe Azul (Hortência), as duas jogadoras disputam uma fase interna antes de avançar. Semifinal 1: vencedora da fase interna da Equipe Azul × jogadora da Equipe Laranja (Guardiã). Semifinal 2: jogadora da Equipe Amarela (Império) × jogadora da Equipe Vermelha (Fuleco). As vencedoras das semifinais disputam a final.",
+  },
+  {
+    modalidade: "Tênis de Mesa Masculino",
+    local: "Refeitório",
+    data: "05/08",
+    inicio: "14h00",
+    formato:
+      "Cada equipe inscreve 2 atletas, que disputam entre si a fase interna. Semifinal 1: vencedor da Equipe Amarela (Império) × vencedor da Equipe Laranja (Guardiã). Semifinal 2: vencedor da Equipe Vermelha (Fuleco) × vencedor da Equipe Azul (Hortência). Vencedores da semifinal disputam a final; perdedores disputam o 3º lugar.",
+  },
+  {
+    modalidade: "Tênis de Mesa Feminino",
+    local: "Refeitório",
+    data: "05/08",
+    inicio: "14h00",
+    formato:
+      "Equipes Laranja (Guardiã) e Amarela (Império) inscrevem 1 atleta cada, direto nas semifinais. Equipes Vermelha (Fuleco) e Azul (Hortência) inscrevem até 2 atletas, com fase interna prévia. Semifinal 1: atleta da Equipe Laranja × vencedora da fase interna da Equipe Vermelha. Semifinal 2: vencedora da fase interna da Equipe Azul × atleta da Equipe Amarela. Vencedoras da semifinal disputam a final; perdedoras disputam o 3º lugar.",
+  },
+  {
+    modalidade: "Videogame FIFA Masculino",
+    local: "Auditório",
+    data: "05/08",
+    inicio: "14h00",
+    formato:
+      "Equipes Azul (Hortência) e Amarela (Império) disputam fase interna entre seus 2 atletas; Equipes Vermelha (Fuleco) e Laranja (Guardiã) inscrevem 1 atleta cada. Semifinal 1: vencedor da Equipe Azul × atleta da Equipe Vermelha. Semifinal 2: vencedor da Equipe Amarela × vencedor da fase interna da Equipe Laranja. Sistema eliminatório simples; vencedores da semifinal disputam a final, perdedores disputam o 3º lugar.",
+  },
+  {
+    modalidade: "Videogame FIFA Feminino",
+    local: "Auditório",
+    data: "05/08",
+    inicio: "14h00",
+    formato:
+      "Equipe Vermelha (Fuleco) disputa fase interna entre suas 2 jogadoras; Equipes Laranja (Guardiã) e Azul (Hortência) inscrevem 1 jogadora cada, que se enfrentam diretamente. A vencedora da Equipe Vermelha enfrenta a vencedora do confronto Laranja × Azul na final. Sistema eliminatório simples; perdedoras da semifinal disputam o 3º lugar. Em caso de empate, o vencedor é definido nas penalidades.",
+  },
+];
+
 /* Capítulos do Regulamento Geral — resumo para a seção "Regulamento" */
 const REGULAMENTO_RESUMO = [
   {
@@ -309,3 +513,5 @@ window.EQUIPES = EQUIPES;
 window.MODALIDADES_ESPORTIVAS = MODALIDADES_ESPORTIVAS;
 window.PROVAS_ARTISTICAS = PROVAS_ARTISTICAS;
 window.PONTUACAO = PONTUACAO;
+window.CHAVEADO = CHAVEADO;
+window.CHAVEADO_INDIVIDUAL = CHAVEADO_INDIVIDUAL;

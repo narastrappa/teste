@@ -504,6 +504,20 @@ button.btn { cursor: pointer; font-family: inherit; font-size: 0.95rem; }
 .programacao-dia h3 span { font-size: 0.85rem; color: var(--vermelho); font-weight: 700; margin-left: 8px; }
 .programacao-obs { margin: 10px 2px 0; color: var(--cinza); font-size: 0.85rem; font-style: italic; }
 
+/* Chaveado Oficial */
+.chaveado-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 22px;
+  margin-bottom: 32px;
+}
+.chaveado-card .table th, .chaveado-card .table td { padding: 8px 10px; font-size: 0.85rem; }
+.chaveado-card h3 { margin: 0 0 4px; color: var(--verde-escuro); font-size: 1.05rem; }
+.chaveado-meta { color: var(--cinza); font-size: 0.85rem; margin: 0 0 12px !important; }
+.chaveado-time { display: inline-flex; align-items: center; }
+.chaveado-time-pendente { color: var(--cinza); font-style: italic; }
+.chaveado-x { color: var(--cinza); font-weight: 700; margin: 0 2px; }
+
 /* Pontuação */
 .pontuacao-grid {
   display: grid;

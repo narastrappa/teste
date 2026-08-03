@@ -155,6 +155,61 @@
      dos jogos são renderizados por js/firebase-app.js, que lê e escreve no
      Firestore em tempo real. */
 
+  /* ---------------- Chaveado Oficial ---------------- */
+  function renderTime(valor) {
+    if (typeof valor === "string" && valor.startsWith("equipe-")) {
+      const e = equipeById[valor];
+      if (!e) return valor;
+      return `<span class="chaveado-time" title="Equipe ${e.numero} — ${e.torcida}"><span class="equipe-color-dot" style="background:${e.hex}"></span>${e.torcida}</span>`;
+    }
+    return `<span class="chaveado-time chaveado-time-pendente">${valor}</span>`;
+  }
+
+  function renderChaveado() {
+    const grid = document.getElementById("chaveadoGrid");
+    if (grid) {
+      grid.innerHTML = CHAVEADO.map(
+        (c) => `
+        <div class="card chaveado-card">
+          <h3>${c.modalidade}</h3>
+          <p class="chaveado-meta">📍 ${c.local} · 📅 ${c.data}</p>
+          <div class="table-scroll">
+            <table class="table">
+              <thead>
+                <tr><th>Fase</th><th>Horário</th><th>Confronto</th></tr>
+              </thead>
+              <tbody>
+                ${c.fases
+                  .map(
+                    (f) => `
+                  <tr>
+                    <td>${f.fase}</td>
+                    <td>${f.horario}</td>
+                    <td>${renderTime(f.timeA)} <span class="chaveado-x">×</span> ${renderTime(f.timeB)}</td>
+                  </tr>`
+                  )
+                  .join("")}
+              </tbody>
+            </table>
+          </div>
+          ${c.observacao ? `<p class="programacao-obs">📌 ${c.observacao}</p>` : ""}
+        </div>`
+      ).join("");
+    }
+
+    const gridIndividual = document.getElementById("chaveadoIndividualGrid");
+    if (gridIndividual) {
+      gridIndividual.innerHTML = CHAVEADO_INDIVIDUAL.map(
+        (c) => `
+        <div class="card chaveado-card">
+          <h3>${c.modalidade}</h3>
+          <p class="chaveado-meta">📍 ${c.local} · 📅 ${c.data} · 🕒 Início ${c.inicio}</p>
+          <p>${c.formato}</p>
+        </div>`
+      ).join("");
+    }
+  }
+
   /* ---------------- Pontuação ---------------- */
   function renderPontuacao() {
     const grid = document.getElementById("pontuacaoEsportivaGrid");
@@ -186,6 +241,7 @@
   renderModalidades();
   renderArtisticas();
   renderProgramacao();
+  renderChaveado();
   renderPontuacao();
   renderRegulamento();
 })();

@@ -173,24 +173,21 @@
         <div class="card chaveado-card">
           <h3>${c.modalidade}</h3>
           <p class="chaveado-meta">📍 ${c.local} · 📅 ${c.data}</p>
-          <div class="table-scroll">
-            <table class="table">
-              <thead>
-                <tr><th>Fase</th><th>Horário</th><th>Confronto</th></tr>
-              </thead>
-              <tbody>
-                ${c.fases
-                  .map(
-                    (f) => `
-                  <tr>
-                    <td>${f.fase}</td>
-                    <td>${f.horario}</td>
-                    <td>${renderTime(f.timeA)} <span class="chaveado-x">×</span> ${renderTime(f.timeB)}</td>
-                  </tr>`
-                  )
-                  .join("")}
-              </tbody>
-            </table>
+          <div class="chaveado-partidas">
+            ${c.fases
+              .map(
+                (f) => `
+              <div class="chaveado-partida">
+                <div class="chaveado-partida-cabecalho">
+                  <span class="chaveado-partida-fase">${f.fase}</span>
+                  <span class="chaveado-partida-horario">${f.horario}</span>
+                </div>
+                <div class="chaveado-partida-confronto">
+                  ${renderTime(f.timeA)} <span class="chaveado-x">×</span> ${renderTime(f.timeB)}
+                </div>
+              </div>`
+              )
+              .join("")}
           </div>
           ${c.observacao ? `<p class="programacao-obs">📌 ${c.observacao}</p>` : ""}
         </div>`

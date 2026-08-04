@@ -511,12 +511,36 @@ button.btn { cursor: pointer; font-family: inherit; font-size: 0.95rem; }
   gap: 22px;
   margin-bottom: 32px;
 }
-.chaveado-card .table th, .chaveado-card .table td { padding: 8px 10px; font-size: 0.85rem; }
 .chaveado-card h3 { margin: 0 0 4px; color: var(--verde-escuro); font-size: 1.05rem; }
 .chaveado-meta { color: var(--cinza); font-size: 0.85rem; margin: 0 0 12px !important; }
+.chaveado-partidas { display: flex; flex-direction: column; gap: 10px; }
+.chaveado-partida {
+  background: var(--verde-suave);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.chaveado-partida-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--verde-escuro);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.chaveado-partida-horario { color: var(--vermelho); white-space: nowrap; }
+.chaveado-partida-confronto {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.92rem;
+}
 .chaveado-time { display: inline-flex; align-items: center; }
 .chaveado-time-pendente { color: var(--cinza); font-style: italic; }
-.chaveado-x { color: var(--cinza); font-weight: 700; margin: 0 2px; }
+.chaveado-x { color: var(--cinza); font-weight: 700; }
 
 /* Pontuação */
 .pontuacao-grid {

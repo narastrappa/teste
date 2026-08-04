@@ -4,7 +4,7 @@
    Internos IF Baiano - Campus Alagoinhas (JIIFAL), incluindo o
    Anexo I (programação com horários, locais e coordenação), e do
    card oficial de apresentação das equipes.
-   Regulamento completo: https://drive.google.com/file/d/1pKslurAk1IAv_rqbWv8p2YHTK9c-qJHv/view
+   Regulamento completo: https://drive.google.com/file/d/1rtL1Z3Dfe5ANg89fJKAZsCH7M_A3uCLl/view?usp=sharing
 =================================================================== */
 
 const EVENTO = {

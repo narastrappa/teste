@@ -432,6 +432,15 @@ const CHAVEADO_INDIVIDUAL = [
     inicio: "10h00",
     formato:
       "Cada equipe inscreve 2 atletas, que se enfrentam entre si na fase interna. Semifinal 1: vencedor da Equipe Azul (Hortência) × vencedor da Equipe Amarela (Império). Semifinal 2: vencedor da Equipe Laranja (Guardiã) × vencedor da Equipe Vermelha (Fuleco). Os vencedores das semifinais disputam a final.",
+    partidas: [
+      { fase: "Fase Interna — Equipe Azul (Hortência)", ladoA: "Atleta 1", ladoB: "Atleta 2" },
+      { fase: "Fase Interna — Equipe Amarela (Império)", ladoA: "Atleta 1", ladoB: "Atleta 2" },
+      { fase: "Semifinal 1", ladoA: "Vencedor — Equipe Azul", ladoB: "Vencedor — Equipe Amarela" },
+      { fase: "Fase Interna — Equipe Laranja (Guardiã)", ladoA: "Atleta 1", ladoB: "Atleta 2" },
+      { fase: "Fase Interna — Equipe Vermelha (Fuleco)", ladoA: "Atleta 1", ladoB: "Atleta 2" },
+      { fase: "Semifinal 2", ladoA: "Vencedor — Equipe Laranja", ladoB: "Vencedor — Equipe Vermelha" },
+      { fase: "Final", ladoA: "Vencedor Semifinal 1", ladoB: "Vencedor Semifinal 2" },
+    ],
   },
   {
     modalidade: "Xadrez Feminino",
@@ -440,6 +449,12 @@ const CHAVEADO_INDIVIDUAL = [
     inicio: "10h00",
     formato:
       "Cada equipe pode inscrever até 2 jogadoras. Na Equipe Azul (Hortência), as duas jogadoras disputam uma fase interna antes de avançar. Semifinal 1: vencedora da fase interna da Equipe Azul × jogadora da Equipe Laranja (Guardiã). Semifinal 2: jogadora da Equipe Amarela (Império) × jogadora da Equipe Vermelha (Fuleco). As vencedoras das semifinais disputam a final.",
+    partidas: [
+      { fase: "Fase Interna — Equipe Azul (Hortência)", ladoA: "Jogadora 1", ladoB: "Jogadora 2" },
+      { fase: "Semifinal 1", ladoA: "Vencedora — Equipe Azul", ladoB: "Jogadora — Equipe Laranja (Guardiã)" },
+      { fase: "Semifinal 2", ladoA: "Jogadora — Equipe Amarela (Império)", ladoB: "Jogadora — Equipe Vermelha (Fuleco)" },
+      { fase: "Final", ladoA: "Vencedora Semifinal 1", ladoB: "Vencedora Semifinal 2" },
+    ],
   },
   {
     modalidade: "Tênis de Mesa Masculino",
@@ -448,6 +463,16 @@ const CHAVEADO_INDIVIDUAL = [
     inicio: "14h00",
     formato:
       "Cada equipe inscreve 2 atletas, que disputam entre si a fase interna. Semifinal 1: vencedor da Equipe Amarela (Império) × vencedor da Equipe Laranja (Guardiã). Semifinal 2: vencedor da Equipe Vermelha (Fuleco) × vencedor da Equipe Azul (Hortência). Vencedores da semifinal disputam a final; perdedores disputam o 3º lugar.",
+    partidas: [
+      { fase: "Fase Interna — Equipe Amarela (Império)", ladoA: "Atleta 1", ladoB: "Atleta 2" },
+      { fase: "Fase Interna — Equipe Laranja (Guardiã)", ladoA: "Atleta 1", ladoB: "Atleta 2" },
+      { fase: "Semifinal 1", ladoA: "Vencedor — Equipe Amarela", ladoB: "Vencedor — Equipe Laranja" },
+      { fase: "Fase Interna — Equipe Vermelha (Fuleco)", ladoA: "Atleta 1", ladoB: "Atleta 2" },
+      { fase: "Fase Interna — Equipe Azul (Hortência)", ladoA: "Atleta 1", ladoB: "Atleta 2" },
+      { fase: "Semifinal 2", ladoA: "Vencedor — Equipe Vermelha", ladoB: "Vencedor — Equipe Azul" },
+      { fase: "Disputa de 3º Lugar", ladoA: "Perdedor Semifinal 1", ladoB: "Perdedor Semifinal 2" },
+      { fase: "Final", ladoA: "Vencedor Semifinal 1", ladoB: "Vencedor Semifinal 2" },
+    ],
   },
   {
     modalidade: "Tênis de Mesa Feminino",
@@ -456,6 +481,14 @@ const CHAVEADO_INDIVIDUAL = [
     inicio: "14h00",
     formato:
       "Equipes Laranja (Guardiã) e Amarela (Império) inscrevem 1 atleta cada, direto nas semifinais. Equipes Vermelha (Fuleco) e Azul (Hortência) inscrevem até 2 atletas, com fase interna prévia. Semifinal 1: atleta da Equipe Laranja × vencedora da fase interna da Equipe Vermelha. Semifinal 2: vencedora da fase interna da Equipe Azul × atleta da Equipe Amarela. Vencedoras da semifinal disputam a final; perdedoras disputam o 3º lugar.",
+    partidas: [
+      { fase: "Fase Interna — Equipe Vermelha (Fuleco)", ladoA: "Atleta 1", ladoB: "Atleta 2" },
+      { fase: "Semifinal 1", ladoA: "Atleta — Equipe Laranja (Guardiã)", ladoB: "Vencedora — Equipe Vermelha" },
+      { fase: "Fase Interna — Equipe Azul (Hortência)", ladoA: "Atleta 1", ladoB: "Atleta 2" },
+      { fase: "Semifinal 2", ladoA: "Vencedora — Equipe Azul", ladoB: "Atleta — Equipe Amarela (Império)" },
+      { fase: "Disputa de 3º Lugar", ladoA: "Perdedora Semifinal 1", ladoB: "Perdedora Semifinal 2" },
+      { fase: "Final", ladoA: "Vencedora Semifinal 1", ladoB: "Vencedora Semifinal 2" },
+    ],
   },
   {
     modalidade: "Videogame FIFA Masculino",
@@ -464,6 +497,15 @@ const CHAVEADO_INDIVIDUAL = [
     inicio: "14h00",
     formato:
       "Equipes Azul (Hortência) e Amarela (Império) disputam fase interna entre seus 2 atletas; Equipes Vermelha (Fuleco) e Laranja (Guardiã) inscrevem 1 atleta cada. Semifinal 1: vencedor da Equipe Azul × atleta da Equipe Vermelha. Semifinal 2: vencedor da Equipe Amarela × vencedor da fase interna da Equipe Laranja. Sistema eliminatório simples; vencedores da semifinal disputam a final, perdedores disputam o 3º lugar.",
+    partidas: [
+      { fase: "Fase Interna — Equipe Azul (Hortência)", ladoA: "Jogador 1", ladoB: "Jogador 2" },
+      { fase: "Semifinal 1", ladoA: "Vencedor — Equipe Azul", ladoB: "Atleta — Equipe Vermelha (Fuleco)" },
+      { fase: "Fase Interna — Equipe Amarela (Império)", ladoA: "Jogador 1", ladoB: "Jogador 2" },
+      { fase: "Fase Interna — Equipe Laranja (Guardiã)", ladoA: "Jogador 1", ladoB: "Jogador 2" },
+      { fase: "Semifinal 2", ladoA: "Vencedor — Equipe Amarela", ladoB: "Vencedor — Equipe Laranja" },
+      { fase: "Final", ladoA: "Vencedor Semifinal 1", ladoB: "Vencedor Semifinal 2" },
+      { fase: "Disputa de 3º Lugar", ladoA: "Perdedor Semifinal 1", ladoB: "Perdedor Semifinal 2" },
+    ],
   },
   {
     modalidade: "Videogame FIFA Feminino",
@@ -472,6 +514,12 @@ const CHAVEADO_INDIVIDUAL = [
     inicio: "14h00",
     formato:
       "Equipe Vermelha (Fuleco) disputa fase interna entre suas 2 jogadoras; Equipes Laranja (Guardiã) e Azul (Hortência) inscrevem 1 jogadora cada, que se enfrentam diretamente. A vencedora da Equipe Vermelha enfrenta a vencedora do confronto Laranja × Azul na final. Sistema eliminatório simples; perdedoras da semifinal disputam o 3º lugar. Em caso de empate, o vencedor é definido nas penalidades.",
+    partidas: [
+      { fase: "Fase Interna — Equipe Vermelha (Fuleco)", ladoA: "Jogadora 1", ladoB: "Jogadora 2" },
+      { fase: "Semifinal 2", ladoA: "Jogadora — Equipe Laranja (Guardiã)", ladoB: "Jogadora — Equipe Azul (Hortência)" },
+      { fase: "Disputa de 3º Lugar", ladoA: "Perdedora Semifinal 1", ladoB: "Perdedora Semifinal 2" },
+      { fase: "Final", ladoA: "Vencedora Semifinal 1 (Fuleco)", ladoB: "Vencedora Semifinal 2 (Laranja/Azul)" },
+    ],
   },
 ];
 

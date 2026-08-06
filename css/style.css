@@ -297,6 +297,15 @@ button.btn { cursor: pointer; font-family: inherit; font-size: 0.95rem; }
   font-weight: 400;
   color: var(--grafite);
 }
+.admin-form input[readonly] { background: #eee; color: var(--cinza); }
+.admin-form-checkbox {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 8px !important;
+  min-width: auto !important;
+  flex: 0 0 auto !important;
+}
+.admin-form-checkbox input { width: auto; }
 
 /* ---------- Sections ---------- */
 .section { padding: 72px 0; }
@@ -542,6 +551,7 @@ button.btn { cursor: pointer; font-family: inherit; font-size: 0.95rem; }
 .chaveado-time-pendente { color: var(--cinza); font-style: italic; }
 .chaveado-x { color: var(--cinza); font-weight: 700; }
 .chaveado-partida-placar { font-weight: 700; color: var(--verde-escuro); }
+.chaveado-partida-nomes { margin: 4px 0 0; font-size: 0.82rem; font-weight: 600; color: var(--verde-escuro); }
 .chaveado-partida-hint {
   display: none;
   margin-top: 6px;

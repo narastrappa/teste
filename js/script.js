@@ -169,6 +169,10 @@
     return `${slugJogo(modalidadeBase)}__${slugJogo(genero)}__${slugJogo(fase)}`;
   }
 
+  function idPartidaIndividual(modalidade, fase) {
+    return `individual__${slugJogo(modalidade)}__${slugJogo(fase)}`;
+  }
+
   function nomeTime(valor) {
     if (typeof valor === "string" && valor.startsWith("equipe-")) {
       const e = equipeById[valor];
@@ -186,6 +190,64 @@
     return `<span class="chaveado-time chaveado-time-pendente">${valor}</span>`;
   }
 
+  /* Resolve os textos "Vencedor SF1/2" e "Perdedor SF1/2" (usados nas
+     fases de Final e Disputa de 3º Lugar) para o id real da equipe, assim
+     que o resultado da semifinal correspondente é lançado. Enquanto a
+     semifinal não tiver resultado, devolve o texto original. */
+  function resolverLadoEquipe(valor, sf1, sf1Id, sf2, sf2Id) {
+    if (typeof valor !== "string") return valor;
+    let m = valor.match(/^Vencedor SF([12])$/);
+    if (m) {
+      const sf = m[1] === "1" ? sf1 : sf2;
+      const sfId = m[1] === "1" ? sf1Id : sf2Id;
+      if (!sf || !sfId) return valor;
+      const jogo = (window.jogosPorId || {})[sfId];
+      return jogo && jogo.vencedor ? jogo.vencedor : valor;
+    }
+    m = valor.match(/^Perdedor SF([12])$/);
+    if (m) {
+      const sf = m[1] === "1" ? sf1 : sf2;
+      const sfId = m[1] === "1" ? sf1Id : sf2Id;
+      if (!sf || !sfId) return valor;
+      const jogo = (window.jogosPorId || {})[sfId];
+      if (jogo && jogo.vencedor) {
+        return jogo.vencedor === sf.timeA ? sf.timeB : sf.timeA;
+      }
+      return valor;
+    }
+    return valor;
+  }
+
+  function calcularPartidaEquipe(info) {
+    const { c, f, sf1, sf1Id, sf2, sf2Id } = info;
+    const dataMatch = f.horario.match(/(\d{2}\/\d{2})/);
+    const dataPartida = dataMatch ? dataMatch[1] : c.data;
+    const timeA = resolverLadoEquipe(f.timeA, sf1, sf1Id, sf2, sf2Id);
+    const timeB = resolverLadoEquipe(f.timeB, sf1, sf1Id, sf2, sf2Id);
+    return { dataPartida, timeA, timeB };
+  }
+
+  function htmlPartida(id, fase, horario, timeAHtml, timeBHtml) {
+    return `
+      <div class="chaveado-partida" data-id="${id}" data-tipo="equipe">
+        <div class="chaveado-partida-cabecalho">
+          <span class="chaveado-partida-fase">${fase}</span>
+          <span class="chaveado-partida-horario">${horario || ""}</span>
+        </div>
+        <div class="chaveado-partida-confronto">
+          ${timeAHtml} <span class="chaveado-x">×</span> ${timeBHtml}
+          <span class="chaveado-partida-placar"></span>
+        </div>
+        <span class="chaveado-partida-hint">🔒 Clique para lançar o resultado</span>
+      </div>`;
+  }
+
+  /* id da partida -> { c, f, modalidadeBase, genero, sf1, sf1Id, sf2, sf2Id }
+     preenchido em renderChaveado() e usado tanto no clique quanto na
+     atualização em tempo real (atualizarCardsChaveado). */
+  const partidaInfoPorId = {};
+  const partidaIndividualInfoPorId = {};
+
   function renderChaveado() {
     const grid = document.getElementById("chaveadoGrid");
     if (grid) {
@@ -193,6 +255,11 @@
         const m = c.modalidade.match(/^(.*) (Feminino|Masculino)$/);
         const modalidadeBase = m ? m[1] : c.modalidade;
         const genero = m ? m[2] : "";
+        const sf1 = c.fases.find((x) => x.fase === "Semifinal 1");
+        const sf2 = c.fases.find((x) => x.fase === "Semifinal 2");
+        const sf1Id = sf1 ? idPartida(modalidadeBase, genero, "Semifinal 1") : null;
+        const sf2Id = sf2 ? idPartida(modalidadeBase, genero, "Semifinal 2") : null;
+
         return `
         <div class="card chaveado-card">
           <h3>${c.modalidade}</h3>
@@ -200,22 +267,11 @@
           <div class="chaveado-partidas">
             ${c.fases
               .map((f) => {
-                const dataMatch = f.horario.match(/(\d{2}\/\d{2})/);
-                const dataPartida = dataMatch ? dataMatch[1] : c.data;
-                const confronto = `${nomeTime(f.timeA)} x ${nomeTime(f.timeB)}`;
                 const id = idPartida(modalidadeBase, genero, f.fase);
-                return `
-              <div class="chaveado-partida" data-id="${id}" data-modalidade="${modalidadeBase}" data-genero="${genero}" data-fase="${f.fase}" data-data="${dataPartida}" data-confronto="${confronto.replace(/"/g, "&quot;")}">
-                <div class="chaveado-partida-cabecalho">
-                  <span class="chaveado-partida-fase">${f.fase}</span>
-                  <span class="chaveado-partida-horario">${f.horario}</span>
-                </div>
-                <div class="chaveado-partida-confronto">
-                  ${renderTime(f.timeA)} <span class="chaveado-x">×</span> ${renderTime(f.timeB)}
-                  <span class="chaveado-partida-placar"></span>
-                </div>
-                <span class="chaveado-partida-hint">🔒 Clique para lançar o resultado</span>
-              </div>`;
+                const info = { c, f, modalidadeBase, genero, sf1, sf1Id, sf2, sf2Id };
+                partidaInfoPorId[id] = info;
+                const calc = calcularPartidaEquipe(info);
+                return htmlPartida(id, f.fase, f.horario, renderTime(calc.timeA), renderTime(calc.timeB));
               })
               .join("")}
           </div>
@@ -227,7 +283,19 @@
         if (!document.body.classList.contains("is-admin")) return;
         const el = ev.target.closest(".chaveado-partida");
         if (!el) return;
-        preencherFormJogo(el.dataset);
+        const info = partidaInfoPorId[el.dataset.id];
+        if (!info) return;
+        const calc = calcularPartidaEquipe(info);
+        preencherFormJogo({
+          id: el.dataset.id,
+          modalidade: info.modalidadeBase,
+          genero: info.genero,
+          fase: info.f.fase,
+          data: calc.dataPartida,
+          confronto: `${nomeTime(calc.timeA)} x ${nomeTime(calc.timeB)}`,
+          timeA: calc.timeA,
+          timeB: calc.timeB,
+        });
       });
     }
 
@@ -238,35 +306,86 @@
         <div class="card chaveado-card">
           <h3>${c.modalidade}</h3>
           <p class="chaveado-meta">📍 ${c.local} · 📅 ${c.data} · 🕒 Início ${c.inicio}</p>
-          <p>${c.formato}</p>
+          <div class="chaveado-partidas">
+            ${c.partidas
+              .map((p) => {
+                const id = idPartidaIndividual(c.modalidade, p.fase);
+                partidaIndividualInfoPorId[id] = { c, p };
+                return `
+              <div class="chaveado-partida" data-id="${id}" data-tipo="individual">
+                <div class="chaveado-partida-cabecalho">
+                  <span class="chaveado-partida-fase">${p.fase}</span>
+                </div>
+                <div class="chaveado-partida-confronto">
+                  <span class="chaveado-time chaveado-time-pendente">${p.ladoA}</span>
+                  <span class="chaveado-x">×</span>
+                  <span class="chaveado-time chaveado-time-pendente">${p.ladoB}</span>
+                  <span class="chaveado-partida-placar"></span>
+                </div>
+                <p class="chaveado-partida-nomes"></p>
+                <span class="chaveado-partida-hint">🔒 Clique para lançar o resultado</span>
+              </div>`;
+              })
+              .join("")}
+          </div>
+          <p class="programacao-obs">📌 ${c.formato}</p>
         </div>`
       ).join("");
+
+      gridIndividual.addEventListener("click", (ev) => {
+        if (!document.body.classList.contains("is-admin")) return;
+        const el = ev.target.closest(".chaveado-partida");
+        if (!el) return;
+        const info = partidaIndividualInfoPorId[el.dataset.id];
+        if (!info) return;
+        preencherFormJogoIndividual(el.dataset.id, info);
+      });
     }
   }
 
-  /* Preenche o formulário de "Lançar resultado de um jogo" a partir dos
-     dados de uma partida do Chaveado Oficial. Se já existir um resultado
-     lançado para essa partida (window.jogosPorId, atualizado por
-     js/firebase-app.js), o placar existente é pré-carregado para edição. */
+  /* Preenche o formulário de "Lançar resultado de um jogo" (modalidades por
+     equipe) a partir de uma partida do Chaveado Oficial. Se já existir um
+     resultado lançado (window.jogosPorId, atualizado por js/firebase-app.js),
+     os dados existentes são pré-carregados para edição. */
   function preencherFormJogo(dados) {
     const form = document.getElementById("formJogo");
     if (!form) return;
 
     const existente = (window.jogosPorId || {})[dados.id];
+    const pendente = (v) => typeof v === "string" && /^(Vencedor|Perdedor) SF[12]$/.test(v);
 
     form.data.value = existente ? existente.data : dados.data;
     form.modalidade.value = dados.modalidade;
     form.genero.value = dados.genero;
     form.confronto.value = dados.confronto;
-    form.placar.value = existente ? existente.placar : "";
     form.fase.value = dados.fase;
+    form.timeAId.value = dados.timeA;
+    form.timeBId.value = dados.timeB;
+
+    const selectVencedor = document.getElementById("formJogoVencedor");
+    if (selectVencedor) {
+      selectVencedor.innerHTML =
+        `<option value="">Selecione o vencedor…</option>` +
+        `<option value="${dados.timeA}">${nomeTime(dados.timeA)}</option>` +
+        `<option value="${dados.timeB}">${nomeTime(dados.timeB)}</option>`;
+      selectVencedor.value = existente && existente.vencedor ? existente.vencedor : "";
+    }
+
+    const woCheckbox = document.getElementById("formJogoWO");
+    if (woCheckbox) woCheckbox.checked = !!(existente && existente.wo);
+    form.placar.value = existente ? existente.placar : "";
+    form.placar.readOnly = !!(existente && existente.wo);
 
     const contexto = document.getElementById("formJogoContexto");
     if (contexto) {
       contexto.hidden = false;
-      contexto.textContent = existente
-        ? `✏️ Editando resultado já lançado: ${dados.modalidade} (${dados.genero}) — ${dados.fase}`
-        : `🆕 Novo resultado: ${dados.modalidade} (${dados.genero}) — ${dados.fase}`;
+      if (pendente(dados.timeA) || pendente(dados.timeB)) {
+        contexto.textContent = `⏳ Esta partida ainda depende de semifinais não concluídas (${dados.confronto}). O ideal é lançar o resultado das semifinais primeiro.`;
+      } else {
+        contexto.textContent = existente
+          ? `✏️ Editando resultado já lançado: ${dados.modalidade} (${dados.genero}) — ${dados.fase}`
+          : `🆕 Novo resultado: ${dados.modalidade} (${dados.genero}) — ${dados.fase}`;
+      }
     }
 
     form.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -276,30 +395,137 @@
     form.placar.focus();
   }
 
+  /* Preenche o formulário de resultado das modalidades individuais
+     (Xadrez, Tênis de Mesa, Videogame FIFA), pedindo o nome de quem jogou
+     em cada lado da partida. */
+  function preencherFormJogoIndividual(id, info) {
+    const form = document.getElementById("formJogoIndividual");
+    if (!form) return;
+
+    const existente = (window.jogosPorId || {})[id];
+
+    form.data.value = existente ? existente.data : info.c.data;
+    form.modalidade.value = info.c.modalidade;
+    form.fase.value = info.p.fase;
+    form.faseTexto.value = info.p.fase;
+    form.atletaA.value = existente ? existente.atletaA || "" : "";
+    form.atletaB.value = existente ? existente.atletaB || "" : "";
+    form.atletaA.placeholder = info.p.ladoA;
+    form.atletaB.placeholder = info.p.ladoB;
+    form.placar.value = existente ? existente.placar : "";
+    form.placar.readOnly = !!(existente && existente.wo);
+    form.vencedorLado.value = existente ? existente.vencedorLado || "" : "";
+    const woCheckbox = document.getElementById("formJogoIndividualWO");
+    if (woCheckbox) woCheckbox.checked = !!(existente && existente.wo);
+
+    const contexto = document.getElementById("formJogoIndividualContexto");
+    if (contexto) {
+      contexto.hidden = false;
+      contexto.textContent = existente
+        ? `✏️ Editando resultado já lançado: ${info.c.modalidade} — ${info.p.fase}`
+        : `🆕 Novo resultado: ${info.c.modalidade} — ${info.p.fase} (${info.p.ladoA} × ${info.p.ladoB})`;
+    }
+
+    form.scrollIntoView({ behavior: "smooth", block: "center" });
+    form.classList.remove("form-realce");
+    void form.offsetWidth;
+    form.classList.add("form-realce");
+    form.atletaA.focus();
+  }
+
+  document.getElementById("formJogoWO")?.addEventListener("change", (ev) => {
+    const form = document.getElementById("formJogo");
+    if (!form) return;
+    if (ev.target.checked) {
+      form.placar.value = "W.O.";
+      form.placar.readOnly = true;
+    } else {
+      form.placar.readOnly = false;
+      if (form.placar.value === "W.O.") form.placar.value = "";
+    }
+  });
+
+  document.getElementById("formJogoIndividualWO")?.addEventListener("change", (ev) => {
+    const form = document.getElementById("formJogoIndividual");
+    if (!form) return;
+    if (ev.target.checked) {
+      form.placar.value = "W.O.";
+      form.placar.readOnly = true;
+    } else {
+      form.placar.readOnly = false;
+      if (form.placar.value === "W.O.") form.placar.value = "";
+    }
+  });
+
   document.getElementById("btnLimparFormJogo")?.addEventListener("click", () => {
     const form = document.getElementById("formJogo");
     if (!form) return;
     form.reset();
     form.fase.value = "";
+    form.timeAId.value = "";
+    form.timeBId.value = "";
+    form.placar.readOnly = false;
+    const selectVencedor = document.getElementById("formJogoVencedor");
+    if (selectVencedor) selectVencedor.innerHTML = `<option value="">Selecione o vencedor…</option>`;
     const contexto = document.getElementById("formJogoContexto");
     if (contexto) contexto.hidden = true;
   });
 
+  document.getElementById("btnLimparFormJogoIndividual")?.addEventListener("click", () => {
+    const form = document.getElementById("formJogoIndividual");
+    if (!form) return;
+    form.reset();
+    form.fase.value = "";
+    form.placar.readOnly = false;
+    const contexto = document.getElementById("formJogoIndividualContexto");
+    if (contexto) contexto.hidden = true;
+  });
+
   /* Chamado por js/firebase-app.js sempre que os resultados dos jogos
-     mudam, para marcar visualmente as partidas do Chaveado que já têm
-     resultado lançado (e mostrar o placar direto no card). */
+     mudam: (1) resolve "Vencedor SF1/2" e "Perdedor SF1/2" na Final e na
+     Disputa de 3º Lugar assim que a semifinal correspondente tem
+     resultado, atualizando o confronto exibido nos cards; (2) marca
+     visualmente as partidas (de equipe ou individuais) que já têm
+     resultado lançado, mostrando o placar direto no card. */
   window.atualizarCardsChaveado = function atualizarCardsChaveado() {
-    document.querySelectorAll(".chaveado-partida[data-id]").forEach((el) => {
-      const jogo = (window.jogosPorId || {})[el.dataset.id];
+    document.querySelectorAll(".chaveado-partida[data-tipo='equipe']").forEach((el) => {
+      const id = el.dataset.id;
+      const info = partidaInfoPorId[id];
+      if (!info) return;
+      const calc = calcularPartidaEquipe(info);
+
+      const confrontoEl = el.querySelector(".chaveado-partida-confronto");
+      if (confrontoEl) {
+        confrontoEl.innerHTML = `${renderTime(calc.timeA)} <span class="chaveado-x">×</span> ${renderTime(calc.timeB)} <span class="chaveado-partida-placar"></span>`;
+      }
+
+      const jogo = (window.jogosPorId || {})[id];
       const placarEl = el.querySelector(".chaveado-partida-placar");
       const hintEl = el.querySelector(".chaveado-partida-hint");
       if (jogo && jogo.placar) {
         el.classList.add("chaveado-partida-preenchida");
-        if (placarEl) placarEl.textContent = `— ${jogo.placar}`;
+        if (placarEl) placarEl.textContent = `— ${jogo.placar}${jogo.wo ? " (W.O.)" : ""}`;
         if (hintEl) hintEl.textContent = "🔒 Clique para editar o resultado";
       } else {
         el.classList.remove("chaveado-partida-preenchida");
-        if (placarEl) placarEl.textContent = "";
+        if (hintEl) hintEl.textContent = "🔒 Clique para lançar o resultado";
+      }
+    });
+
+    document.querySelectorAll(".chaveado-partida[data-tipo='individual']").forEach((el) => {
+      const id = el.dataset.id;
+      const jogo = (window.jogosPorId || {})[id];
+      const placarEl = el.querySelector(".chaveado-partida-placar");
+      const hintEl = el.querySelector(".chaveado-partida-hint");
+      const nomesEl = el.querySelector(".chaveado-partida-nomes");
+      if (jogo && jogo.placar) {
+        el.classList.add("chaveado-partida-preenchida");
+        if (nomesEl) nomesEl.textContent = `${jogo.atletaA || "?"} × ${jogo.atletaB || "?"}`;
+        if (placarEl) placarEl.textContent = `— ${jogo.placar}${jogo.wo ? " (W.O.)" : ""}`;
+        if (hintEl) hintEl.textContent = "🔒 Clique para editar o resultado";
+      } else {
+        el.classList.remove("chaveado-partida-preenchida");
+        if (nomesEl) nomesEl.textContent = "";
         if (hintEl) hintEl.textContent = "🔒 Clique para lançar o resultado";
       }
     });

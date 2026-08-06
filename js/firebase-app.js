@@ -154,7 +154,7 @@ async function iniciarFirebase() {
     const tbody = document.querySelector("#tabelaResultadosJogos tbody");
     if (!tbody) return;
     if (snap.empty) {
-      tbody.innerHTML = `<tr><td colspan="5">Nenhum resultado divulgado ainda. Volte durante o JIIFAL!</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="6">Nenhum resultado divulgado ainda. Volte durante o JIIFAL!</td></tr>`;
       return;
     }
     tbody.innerHTML = snap.docs
@@ -165,8 +165,9 @@ async function iniciarFirebase() {
           <td>${j.data || ""}</td>
           <td>${j.modalidade || ""}</td>
           <td>${j.genero || ""}</td>
+          <td>${j.fase || ""}</td>
           <td>${j.confronto || ""}</td>
-          <td><strong>${j.placar || ""}</strong></td>
+          <td><strong>${j.placar || ""}${j.wo ? " (W.O.)" : ""}</strong></td>
         </tr>`;
       })
       .join("");
@@ -178,6 +179,10 @@ async function iniciarFirebase() {
     ev.preventDefault();
     if (!admin) return;
     const f = ev.target;
+    if (!f.vencedor.value) {
+      alert("Selecione o vencedor(a) da partida antes de publicar.");
+      return;
+    }
     const dados = {
       data: f.data.value,
       modalidade: f.modalidade.value,
@@ -185,12 +190,15 @@ async function iniciarFirebase() {
       confronto: f.confronto.value,
       placar: f.placar.value,
       fase: f.fase.value || "",
+      vencedor: f.vencedor.value,
+      wo: f.wo.checked,
       atualizadoEm: serverTimestamp(),
     };
     if (f.fase.value) {
       /* Partida vinda do Chaveado Oficial: id determinístico permite
-         corrigir o resultado depois só clicando na mesma partida de novo,
-         em vez de criar um lançamento duplicado. */
+         corrigir o resultado depois só clicando na mesma partida de novo
+         (o resultado também é usado para preencher automaticamente a
+         Final e a Disputa de 3º Lugar com as equipes classificadas). */
       const id = `${slug(f.modalidade.value)}__${slug(f.genero.value)}__${slug(f.fase.value)}`;
       await setDoc(doc(db, "jogos", id), dados);
     } else {
@@ -198,7 +206,43 @@ async function iniciarFirebase() {
     }
     f.reset();
     f.fase.value = "";
+    f.timeAId.value = "";
+    f.timeBId.value = "";
+    f.placar.readOnly = false;
+    const selectVencedor = document.getElementById("formJogoVencedor");
+    if (selectVencedor) selectVencedor.innerHTML = `<option value="">Selecione o vencedor…</option>`;
     const contexto = document.getElementById("formJogoContexto");
+    if (contexto) contexto.hidden = true;
+  });
+
+  document.getElementById("formJogoIndividual")?.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    if (!admin) return;
+    const f = ev.target;
+    if (!f.vencedorLado.value) {
+      alert("Selecione o vencedor(a) (Lado A ou Lado B) antes de publicar.");
+      return;
+    }
+    const dados = {
+      data: f.data.value,
+      modalidade: f.modalidade.value,
+      genero: "",
+      fase: f.fase.value || "",
+      atletaA: f.atletaA.value,
+      atletaB: f.atletaB.value,
+      confronto: `${f.atletaA.value} x ${f.atletaB.value}`,
+      placar: f.placar.value,
+      vencedorLado: f.vencedorLado.value,
+      wo: f.wo.checked,
+      tipo: "individual",
+      atualizadoEm: serverTimestamp(),
+    };
+    const id = `individual__${slug(f.modalidade.value)}__${slug(f.fase.value)}`;
+    await setDoc(doc(db, "jogos", id), dados);
+    f.reset();
+    f.fase.value = "";
+    f.placar.readOnly = false;
+    const contexto = document.getElementById("formJogoIndividualContexto");
     if (contexto) contexto.hidden = true;
   });
 

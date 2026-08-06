@@ -171,6 +171,8 @@
         <p id="formJogoContexto" class="chaveado-form-contexto" hidden></p>
         <form id="formJogo" class="admin-form">
           <input type="hidden" name="fase" id="formJogoFase">
+          <input type="hidden" name="timeAId" id="formJogoTimeAId">
+          <input type="hidden" name="timeBId" id="formJogoTimeBId">
           <div class="admin-form-row">
             <label>Data
               <input type="text" name="data" placeholder="Ex.: 05/08" required>
@@ -194,8 +196,63 @@
               <input type="text" name="placar" placeholder="Ex.: 3 x 1" required>
             </label>
           </div>
+          <div class="admin-form-row">
+            <label>Vencedor(a)
+              <select name="vencedor" id="formJogoVencedor" required>
+                <option value="">Selecione o vencedor…</option>
+              </select>
+            </label>
+            <label class="admin-form-checkbox">
+              <input type="checkbox" name="wo" id="formJogoWO">
+              Vitória por W.O. (equipe não compareceu — Art. 18)
+            </label>
+          </div>
           <button type="submit" class="btn btn-primary-sm">Publicar resultado</button>
           <button type="button" id="btnLimparFormJogo" class="btn btn-ghost-sm">Limpar / novo lançamento livre</button>
+        </form>
+
+        <h3 class="subtitle">🔒 Lançar resultado — modalidade individual (Xadrez, Tênis de Mesa, Videogame FIFA)</h3>
+        <p class="section-sub">💡 Clique em qualquer partida das modalidades individuais (mais abaixo) para preencher automaticamente. Informe o nome de quem jogou em cada lado.</p>
+        <p id="formJogoIndividualContexto" class="chaveado-form-contexto" hidden></p>
+        <form id="formJogoIndividual" class="admin-form">
+          <input type="hidden" name="fase" id="formJogoIndividualFase">
+          <div class="admin-form-row">
+            <label>Data
+              <input type="text" name="data" placeholder="Ex.: 05/08" required>
+            </label>
+            <label>Modalidade
+              <input type="text" name="modalidade" placeholder="Ex.: Xadrez Masculino" required>
+            </label>
+            <label>Fase
+              <input type="text" name="faseTexto" id="formJogoIndividualFaseTexto" readonly>
+            </label>
+          </div>
+          <div class="admin-form-row">
+            <label>Atleta/Dupla — Lado A
+              <input type="text" name="atletaA" id="formJogoIndividualAtletaA" placeholder="Nome do(a) atleta" required>
+            </label>
+            <label>Atleta/Dupla — Lado B
+              <input type="text" name="atletaB" id="formJogoIndividualAtletaB" placeholder="Nome do(a) atleta" required>
+            </label>
+          </div>
+          <div class="admin-form-row">
+            <label>Placar/Resultado
+              <input type="text" name="placar" placeholder="Ex.: 2 x 1" required>
+            </label>
+            <label>Vencedor(a)
+              <select name="vencedorLado" required>
+                <option value="">Selecione…</option>
+                <option value="A">Lado A</option>
+                <option value="B">Lado B</option>
+              </select>
+            </label>
+            <label class="admin-form-checkbox">
+              <input type="checkbox" name="wo" id="formJogoIndividualWO">
+              Vitória por W.O.
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary-sm">Publicar resultado</button>
+          <button type="button" id="btnLimparFormJogoIndividual" class="btn btn-ghost-sm">Limpar</button>
         </form>
 
         <h3 class="subtitle">🔒 Registrar colocação — modalidade esportiva</h3>
@@ -244,12 +301,13 @@
               <th>Data</th>
               <th>Modalidade</th>
               <th>Gênero</th>
+              <th>Fase</th>
               <th>Confronto</th>
               <th>Placar</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="5">Carregando…</td></tr>
+            <tr><td colspan="6">Carregando…</td></tr>
           </tbody>
         </table>
       </div>

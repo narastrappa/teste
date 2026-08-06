@@ -167,7 +167,10 @@
 
       <div class="admin-only admin-forms" style="display:none">
         <h3 class="subtitle">🔒 Lançar resultado de um jogo</h3>
+        <p class="section-sub">💡 Clique em qualquer partida do Chaveado Oficial (mais abaixo) para preencher este formulário automaticamente. Já lançou um resultado errado? Clique na mesma partida de novo para editar.</p>
+        <p id="formJogoContexto" class="chaveado-form-contexto" hidden></p>
         <form id="formJogo" class="admin-form">
+          <input type="hidden" name="fase" id="formJogoFase">
           <div class="admin-form-row">
             <label>Data
               <input type="text" name="data" placeholder="Ex.: 05/08" required>
@@ -192,6 +195,7 @@
             </label>
           </div>
           <button type="submit" class="btn btn-primary-sm">Publicar resultado</button>
+          <button type="button" id="btnLimparFormJogo" class="btn btn-ghost-sm">Limpar / novo lançamento livre</button>
         </form>
 
         <h3 class="subtitle">🔒 Registrar colocação — modalidade esportiva</h3>

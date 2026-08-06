@@ -135,14 +135,22 @@ async function iniciarFirebase() {
     adminBlocks.forEach((el) => {
       el.style.display = admin ? "" : "none";
     });
+    document.body.classList.toggle("is-admin", admin);
   }
 
   onAuthStateChanged(auth, renderAuthUI);
 
   /* ---------------- Resultados dos jogos (feed público) ---------------- */
   const jogosCol = collection(db, "jogos");
+  window.jogosPorId = {};
 
-  onSnapshot(query(jogosCol, orderBy("criadoEm", "desc")), (snap) => {
+  onSnapshot(query(jogosCol, orderBy("atualizadoEm", "desc")), (snap) => {
+    window.jogosPorId = {};
+    snap.forEach((d) => {
+      window.jogosPorId[d.id] = d.data();
+    });
+    window.atualizarCardsChaveado && window.atualizarCardsChaveado();
+
     const tbody = document.querySelector("#tabelaResultadosJogos tbody");
     if (!tbody) return;
     if (snap.empty) {
@@ -170,15 +178,28 @@ async function iniciarFirebase() {
     ev.preventDefault();
     if (!admin) return;
     const f = ev.target;
-    await addDoc(jogosCol, {
+    const dados = {
       data: f.data.value,
       modalidade: f.modalidade.value,
       genero: f.genero.value,
       confronto: f.confronto.value,
       placar: f.placar.value,
-      criadoEm: serverTimestamp(),
-    });
+      fase: f.fase.value || "",
+      atualizadoEm: serverTimestamp(),
+    };
+    if (f.fase.value) {
+      /* Partida vinda do Chaveado Oficial: id determinístico permite
+         corrigir o resultado depois só clicando na mesma partida de novo,
+         em vez de criar um lançamento duplicado. */
+      const id = `${slug(f.modalidade.value)}__${slug(f.genero.value)}__${slug(f.fase.value)}`;
+      await setDoc(doc(db, "jogos", id), dados);
+    } else {
+      await addDoc(jogosCol, dados);
+    }
     f.reset();
+    f.fase.value = "";
+    const contexto = document.getElementById("formJogoContexto");
+    if (contexto) contexto.hidden = true;
   });
 
   /* ---------------- Colocações → Classificação Geral (Art. 20) ---------------- */

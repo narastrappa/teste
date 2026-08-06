@@ -541,6 +541,47 @@ button.btn { cursor: pointer; font-family: inherit; font-size: 0.95rem; }
 .chaveado-time { display: inline-flex; align-items: center; }
 .chaveado-time-pendente { color: var(--cinza); font-style: italic; }
 .chaveado-x { color: var(--cinza); font-weight: 700; }
+.chaveado-partida-placar { font-weight: 700; color: var(--verde-escuro); }
+.chaveado-partida-hint {
+  display: none;
+  margin-top: 6px;
+  font-size: 0.72rem;
+  color: var(--verde-escuro);
+  font-style: italic;
+}
+
+/* Só fica clicável/realçado quando um(a) admin está logado(a) — controlado
+   por js/firebase-app.js via document.body.classList.toggle("is-admin"). */
+body.is-admin .chaveado-partida {
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+body.is-admin .chaveado-partida:hover {
+  background: #d7ecd9;
+  transform: translateY(-1px);
+}
+body.is-admin .chaveado-partida-hint { display: block; }
+body.is-admin .chaveado-partida-preenchida {
+  background: #e2f3e4;
+  border: 1px solid var(--verde);
+}
+
+.chaveado-form-contexto {
+  background: var(--verde-suave);
+  border-left: 4px solid var(--verde);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--verde-escuro);
+  margin: 0 0 14px;
+}
+
+@keyframes realceForm {
+  0% { box-shadow: 0 0 0 0 rgba(25, 88, 201, 0.35); }
+  100% { box-shadow: 0 0 0 10px rgba(25, 88, 201, 0); }
+}
+.form-realce { animation: realceForm 0.8s ease-out; border-radius: var(--radius); }
 
 /* Pontuação */
 .pontuacao-grid {

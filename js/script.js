@@ -156,6 +156,27 @@
      Firestore em tempo real. */
 
   /* ---------------- Chaveado Oficial ---------------- */
+  function slugJogo(texto) {
+    return String(texto)
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
+
+  function idPartida(modalidadeBase, genero, fase) {
+    return `${slugJogo(modalidadeBase)}__${slugJogo(genero)}__${slugJogo(fase)}`;
+  }
+
+  function nomeTime(valor) {
+    if (typeof valor === "string" && valor.startsWith("equipe-")) {
+      const e = equipeById[valor];
+      return e ? e.torcida : valor;
+    }
+    return valor;
+  }
+
   function renderTime(valor) {
     if (typeof valor === "string" && valor.startsWith("equipe-")) {
       const e = equipeById[valor];
@@ -168,30 +189,46 @@
   function renderChaveado() {
     const grid = document.getElementById("chaveadoGrid");
     if (grid) {
-      grid.innerHTML = CHAVEADO.map(
-        (c) => `
+      grid.innerHTML = CHAVEADO.map((c) => {
+        const m = c.modalidade.match(/^(.*) (Feminino|Masculino)$/);
+        const modalidadeBase = m ? m[1] : c.modalidade;
+        const genero = m ? m[2] : "";
+        return `
         <div class="card chaveado-card">
           <h3>${c.modalidade}</h3>
           <p class="chaveado-meta">📍 ${c.local} · 📅 ${c.data}</p>
           <div class="chaveado-partidas">
             ${c.fases
-              .map(
-                (f) => `
-              <div class="chaveado-partida">
+              .map((f) => {
+                const dataMatch = f.horario.match(/(\d{2}\/\d{2})/);
+                const dataPartida = dataMatch ? dataMatch[1] : c.data;
+                const confronto = `${nomeTime(f.timeA)} x ${nomeTime(f.timeB)}`;
+                const id = idPartida(modalidadeBase, genero, f.fase);
+                return `
+              <div class="chaveado-partida" data-id="${id}" data-modalidade="${modalidadeBase}" data-genero="${genero}" data-fase="${f.fase}" data-data="${dataPartida}" data-confronto="${confronto.replace(/"/g, "&quot;")}">
                 <div class="chaveado-partida-cabecalho">
                   <span class="chaveado-partida-fase">${f.fase}</span>
                   <span class="chaveado-partida-horario">${f.horario}</span>
                 </div>
                 <div class="chaveado-partida-confronto">
                   ${renderTime(f.timeA)} <span class="chaveado-x">×</span> ${renderTime(f.timeB)}
+                  <span class="chaveado-partida-placar"></span>
                 </div>
-              </div>`
-              )
+                <span class="chaveado-partida-hint">🔒 Clique para lançar o resultado</span>
+              </div>`;
+              })
               .join("")}
           </div>
           ${c.observacao ? `<p class="programacao-obs">📌 ${c.observacao}</p>` : ""}
-        </div>`
-      ).join("");
+        </div>`;
+      }).join("");
+
+      grid.addEventListener("click", (ev) => {
+        if (!document.body.classList.contains("is-admin")) return;
+        const el = ev.target.closest(".chaveado-partida");
+        if (!el) return;
+        preencherFormJogo(el.dataset);
+      });
     }
 
     const gridIndividual = document.getElementById("chaveadoIndividualGrid");
@@ -206,6 +243,67 @@
       ).join("");
     }
   }
+
+  /* Preenche o formulário de "Lançar resultado de um jogo" a partir dos
+     dados de uma partida do Chaveado Oficial. Se já existir um resultado
+     lançado para essa partida (window.jogosPorId, atualizado por
+     js/firebase-app.js), o placar existente é pré-carregado para edição. */
+  function preencherFormJogo(dados) {
+    const form = document.getElementById("formJogo");
+    if (!form) return;
+
+    const existente = (window.jogosPorId || {})[dados.id];
+
+    form.data.value = existente ? existente.data : dados.data;
+    form.modalidade.value = dados.modalidade;
+    form.genero.value = dados.genero;
+    form.confronto.value = dados.confronto;
+    form.placar.value = existente ? existente.placar : "";
+    form.fase.value = dados.fase;
+
+    const contexto = document.getElementById("formJogoContexto");
+    if (contexto) {
+      contexto.hidden = false;
+      contexto.textContent = existente
+        ? `✏️ Editando resultado já lançado: ${dados.modalidade} (${dados.genero}) — ${dados.fase}`
+        : `🆕 Novo resultado: ${dados.modalidade} (${dados.genero}) — ${dados.fase}`;
+    }
+
+    form.scrollIntoView({ behavior: "smooth", block: "center" });
+    form.classList.remove("form-realce");
+    void form.offsetWidth;
+    form.classList.add("form-realce");
+    form.placar.focus();
+  }
+
+  document.getElementById("btnLimparFormJogo")?.addEventListener("click", () => {
+    const form = document.getElementById("formJogo");
+    if (!form) return;
+    form.reset();
+    form.fase.value = "";
+    const contexto = document.getElementById("formJogoContexto");
+    if (contexto) contexto.hidden = true;
+  });
+
+  /* Chamado por js/firebase-app.js sempre que os resultados dos jogos
+     mudam, para marcar visualmente as partidas do Chaveado que já têm
+     resultado lançado (e mostrar o placar direto no card). */
+  window.atualizarCardsChaveado = function atualizarCardsChaveado() {
+    document.querySelectorAll(".chaveado-partida[data-id]").forEach((el) => {
+      const jogo = (window.jogosPorId || {})[el.dataset.id];
+      const placarEl = el.querySelector(".chaveado-partida-placar");
+      const hintEl = el.querySelector(".chaveado-partida-hint");
+      if (jogo && jogo.placar) {
+        el.classList.add("chaveado-partida-preenchida");
+        if (placarEl) placarEl.textContent = `— ${jogo.placar}`;
+        if (hintEl) hintEl.textContent = "🔒 Clique para editar o resultado";
+      } else {
+        el.classList.remove("chaveado-partida-preenchida");
+        if (placarEl) placarEl.textContent = "";
+        if (hintEl) hintEl.textContent = "🔒 Clique para lançar o resultado";
+      }
+    });
+  };
 
   /* ---------------- Pontuação ---------------- */
   function renderPontuacao() {
